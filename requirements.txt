@@ -1,0 +1,11 @@
+-e .
+build
+flake8
+marimo
+mypy
+mypy_extensions
+pytest
+python_lsp_server
+setuptools
+twine
+wheel

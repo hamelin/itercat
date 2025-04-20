@@ -1,0 +1,4 @@
+*.egg-info
+*.py[cd]
+__pycache__
+__marimo__
