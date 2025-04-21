@@ -39,3 +39,5 @@ class test:
             return False
         else:
             return self.reporter.error_raised(self, value, tb)
+
+

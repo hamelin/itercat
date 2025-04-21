@@ -8,8 +8,8 @@ app = marimo.App(width="full")
 
 @app.cell
 def _():
+    from _test import test
     import itercat as cat
-    from itercat.test import test
     import marimo as mo
     return cat, test
 
@@ -31,7 +31,7 @@ def _(test):
 @app.cell
 def _(test):
     with test("one", debug=True):
-        assert 1 == 2
+        assert 1 == 1
     return
 
 

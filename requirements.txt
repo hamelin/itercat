@@ -4,6 +4,7 @@ flake8
 marimo
 mypy
 mypy_extensions
+pygments
 pytest
 python_lsp_server
 setuptools
