@@ -1,19 +1,14 @@
 from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import Any, Generic, Protocol, TypeVar
+from typing import Any, Callable, Generic, TypeVar
 
 from ._map import apply_function_uniform, apply_function_variable, Function
 
 
-S = TypeVar("S")
-T = TypeVar("T")
+S = TypeVar("S", contravariant=True)
+T = TypeVar("T", covariant=True)
 U = TypeVar("U")
-
-
-class Filter(Protocol[S, T]):
-
-    def __call__(self, input: Iterator[S]) -> Iterator[T]:
-        ...
+Filter = Callable[[Iterator[S]], Iterator[T]]
 
 
 @dataclass
@@ -21,7 +16,7 @@ class Sequence(Generic[S, T]):
     filters: list[Filter]
 
     def __or__(self, tail: "Sequence[T, U]") -> "Sequence[S, U]":
-        return type(self)(self.filters + tail.filters)
+        return Sequence[S, U](self.filters + tail.filters)
 
     def __lt__(self, iteration: Iterator[S]) -> Iterator[T]:
         assert hasattr(iteration, "__next__")
