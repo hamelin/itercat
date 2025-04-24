@@ -9,10 +9,10 @@ app = marimo.App(width="full")
 @app.cell
 def _():
     from _test import test
-    from itercat import map, sequence
+    from itercat import map, reduce, sink, step
     import marimo as mo  # noqa
-    from operator import add
-    return add, map, sequence, test
+    from operator import add, mul
+    return add, map, mul, reduce, sink, step, test
 
 
 @app.cell
@@ -22,8 +22,8 @@ def _():
 
 
 @app.cell
-def _(sequence):
-    @sequence
+def _(step):
+    @step
     def increment(nums):
         for num in nums:
             yield num + 1
@@ -135,6 +135,60 @@ def _(map, test):
             > map(_counts_args, variable_input=True)
         )
         _expected = [(1, 0), (3, 0), (0, 0), (2, 1)]
+        assert _result == _expected
+    return
+
+
+@app.cell
+def _(map, sink, test):
+    with test("map-sink"):
+        _result = iter([4, 8, -2]) > map(lambda x: x + 1) | sink(sum)
+        _expected = 13
+        assert _result == _expected
+    return
+
+
+@app.cell
+def _(sink, test):
+    with test("sink-alone"):
+        _result = iter([4, 8, -2]) > sink(sum)
+        _expected = 10
+        assert _result == _expected
+    return
+
+
+@app.cell
+def _(mul, reduce, test):
+    with test("reduce-mul"):
+        _result = iter([2, 8, -1]) > reduce(mul, 1)
+        _expected = -16
+        assert _result == _expected
+    return
+
+
+@app.cell
+def _(mul, reduce, test):
+    with test("reduce-mul-single-item"):
+        _result = iter([2]) > reduce(mul)
+        _expected = 2
+        assert _result == _expected
+    return
+
+
+@app.cell
+def _(mul, reduce, test):
+    with test("reduce-mul-no-item"):
+        _result = iter([]) > reduce(mul, 3)
+        _expected = 3
+        assert _result == _expected
+    return
+
+
+@app.cell
+def _(reduce, test):
+    with test("reduce-changing-input-type"):
+        _result = iter([4, 5, 6]) > reduce(lambda lst, x: [x, *lst], [])
+        _expected = [6, 5, 4]
         assert _result == _expected
     return
 

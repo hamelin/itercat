@@ -1,6 +1,7 @@
 from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import Any, Callable, Generic, TypeVar
+import functools as ft
+from typing import Any, Callable, Generic, TypeVar, Union
 
 from ._map import apply_function_uniform, apply_function_variable, Function
 
@@ -9,6 +10,7 @@ S = TypeVar("S", contravariant=True)
 T = TypeVar("T", covariant=True)
 U = TypeVar("U")
 Filter = Callable[[Iterator[S]], Iterator[T]]
+Consumer = Callable[[Iterator[T]], U]
 
 
 @dataclass
@@ -16,6 +18,8 @@ class Sequence(Generic[S, T]):
     filters: list[Filter]
 
     def __or__(self, tail: "Sequence[T, U]") -> "Sequence[S, U]":
+        if not isinstance(tail, Sequence):
+            return NotImplemented
         return Sequence[S, U](self.filters + tail.filters)
 
     def __lt__(self, iteration: Iterator[S]) -> Iterator[T]:
@@ -26,7 +30,30 @@ class Sequence(Generic[S, T]):
         return i_
 
 
-def sequence(fn: Filter[S, T]) -> Sequence[S, T]:
+@dataclass
+class Terminal(Generic[S, T, U]):
+    sequence: Sequence[S, T]
+    consume: Consumer[T, U]
+
+    def __lt__(self, iteration: Iterator[S]) -> U:
+        return self.consume(iteration > self.sequence)
+
+
+@dataclass
+class sink(Generic[T, U]):
+    consume: Consumer[T, U]
+
+    def __ror__(self, sequence: Sequence[S, T]) -> Terminal[S, T, U]:
+        return Terminal[S, T, U](sequence=sequence, consume=self.consume)
+
+    def __lt__(self, iteration: Iterator[T]) -> U:
+        return iteration > Terminal[T, T, U](
+            sequence=Sequence[T, T](filters=[]),
+            consume=self.consume
+        )
+
+
+def step(fn: Filter[S, T]) -> Sequence[S, T]:
     return Sequence([fn])
 
 
@@ -35,7 +62,7 @@ def map(
     flatten_args: bool = True,
     variable_input: bool = False
 ) -> Sequence[S, T]:
-    @sequence
+    @step
     def _map(elements: Iterator[S]) -> Iterator[T]:
         process = (
             apply_function_variable
@@ -49,9 +76,32 @@ def map(
     return _map
 
 
+class _Dummy:
+    pass
+
+
+_dummy = _Dummy()
+
+
+def reduce(
+    function: Callable[[U, T], U],
+    initial: Union[U, _Dummy] = _dummy
+) -> sink[T, U]:
+    if initial is _dummy:
+        return sink(
+            lambda iteration: ft.reduce(function, iteration)  # type: ignore
+        )
+    return sink(
+        lambda iteration: ft.reduce(function, iteration, initial)  # type: ignore
+    )
+
+
 __all__ = [
+    "Consumer",
     "Filter",
     "map",
+    "reduce",
     "Sequence",
-    "sequence",
+    "sink",
+    "step",
 ]
