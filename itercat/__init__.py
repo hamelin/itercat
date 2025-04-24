@@ -30,29 +30,26 @@ def sequence(fn: Filter[S, T]) -> Sequence[S, T]:
     return Sequence([fn])
 
 
-def map(function: Function[T], is_input_variable: bool = False) -> Sequence[S, T]:
+def map(
+    function: Function[T],
+    flatten_args: bool = True,
+    variable_input: bool = False
+) -> Sequence[S, T]:
     @sequence
     def _map(elements: Iterator[S]) -> Iterator[T]:
         process = (
             apply_function_variable
-            if is_input_variable
+            if variable_input
             else apply_function_uniform
         )
         for x in elements:
-            y, process = process(function, x)
+            y, process = process(function, x, flatten_args)  # type: ignore
             yield y
 
     return _map
 
 
-@sequence
-def entuple(elements: Iterator[T]) -> Iterator[tuple[T]]:
-    for x in elements:
-        yield (x,)
-
-
 __all__ = [
-    "entuple",
     "Filter",
     "map",
     "Sequence",

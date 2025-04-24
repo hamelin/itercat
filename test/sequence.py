@@ -9,11 +9,10 @@ app = marimo.App(width="full")
 @app.cell
 def _():
     from _test import test
-    from collections.abc import Iterator
-    from itercat import entuple, map, sequence
-    import marimo as mo
+    from itercat import map, sequence
+    import marimo as mo  # noqa
     from operator import add
-    return Iterator, add, entuple, map, sequence, test
+    return add, map, sequence, test
 
 
 @app.cell
@@ -23,9 +22,9 @@ def _():
 
 
 @app.cell
-def _(Iterator, sequence):
+def _(sequence):
     @sequence
-    def increment(nums: Iterator[int]) -> Iterator[int]:
+    def increment(nums):
         for num in nums:
             yield num + 1
     return (increment,)
@@ -38,7 +37,7 @@ def _(increment, iterations, test):
         ("thrice", increment | increment | increment, 3),
     ]:
         for _name_src, _src in iterations.items():
-            with test(f"{_name_src}-incr-{_name_seq}") as _t:
+            with test(f"{_name_src}-incr-{_name_seq}"):
                 _it = iter(_src) > _seq
                 assert hasattr(_it, "__next__")
                 _expected = [_n + _incr for _n in _src]
@@ -97,19 +96,10 @@ def _(map, test):
 
 
 @app.cell
-def _(entuple, test):
-    with test("entuple"):
-        _result = list(iter([5, 6, 8, ()]) > entuple)
-        _expected = [(5,), (6,), (8,), ((),)]
-        assert _result == _expected
-    return
-
-
-@app.cell
 def _(map, test):
     with test("map-on-tuples-fail"):
         try:
-            for x in iter([(1, 2)]) > map(lambda p: p[0]):
+            for _ in iter([(1, 2)]) > map(lambda p: p[0]):
                 pass
             assert False, "Should not get here"
         except TypeError:
@@ -118,9 +108,9 @@ def _(map, test):
 
 
 @app.cell
-def _(entuple, map, test):
+def _(map, test):
     with test("map-on-tuples-success"):
-        _result = list(iter([(1, 2)]) > entuple | map(lambda p: p[0]))
+        _result = list(iter([(1, 2)]) > map(lambda p: p[0], flatten_args=False))
         _expected = [1]
         assert _result == _expected
     return
@@ -142,7 +132,7 @@ def _(map, test):
                     ((3, 1), {"a": 5}),
                 ]
             )
-            > map(_counts_args, is_input_variable=True)
+            > map(_counts_args, variable_input=True)
         )
         _expected = [(1, 0), (3, 0), (0, 0), (2, 1)]
         assert _result == _expected
