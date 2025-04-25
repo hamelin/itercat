@@ -8,11 +8,11 @@ app = marimo.App(width="full")
 
 @app.cell
 def _():
-    from _test import test
+    from _test import assert_seq, test
     from itercat import filter, map, mapargs, reduce, step
     import marimo as mo  # noqa
     from operator import add, mul, neg
-    return add, filter, map, mapargs, mul, neg, reduce, step, test
+    return add, assert_seq, filter, map, mapargs, mul, neg, reduce, step, test
 
 
 @app.cell
@@ -31,7 +31,7 @@ def _(step):
 
 
 @app.cell
-def _(increment, iterations, test):
+def _(assert_seq, increment, iterations, test):
     for _name_seq, _seq, _incr in [
         ("once", increment, 1),
         ("thrice", increment | increment | increment, 3),
@@ -40,115 +40,92 @@ def _(increment, iterations, test):
             with test(f"{_name_src}-incr-{_name_seq}"):
                 _it = iter(_src) > _seq
                 assert hasattr(_it, "__next__")
-                _expected = [_n + _incr for _n in _src]
-                assert list(_it) == _expected
+                assert_seq(_it, [_n + _incr for _n in _src])
     return
 
 
 @app.cell
-def _(increment, test):
+def _(assert_seq, increment, test):
     with test("notation_increment_thrice"):
-        assert list([3, 0, -2] > increment | increment | increment) == [6, 3, 1]
+        assert_seq([3, 0, -2] > increment | increment | increment, [6, 3, 1])
     return
 
 
 @app.cell
-def _(map, test):
+def _(assert_seq, map, test):
     with test("map-numbers"):
-        _result = list([3, 0, -2] > map(lambda x: x * 2))
-        _expected = [6, 0, -4]
-        assert _result == _expected
+        assert_seq([3, 0, -2] > map(lambda x: x * 2), [6, 0, -4])
     return
 
 
 @app.cell
-def _(map, test):
+def _(assert_seq, map, test):
     with test("map-tuples"):
-        _result = list([(2, 3), (3, -8, 9), ()] > map(len))
-        _expected = [2, 3, 0]
-        assert _result == _expected
+        assert_seq([(2, 3), (3, -8, 9), ()] > map(len), [2, 3, 0])
     return
 
 
 @app.cell
-def _(map, test):
+def _(assert_seq, map, test):
     with test("map-empty"):
-        _result = list([] > map(lambda x: x + 1))
-        _expected = []
-        assert _result == _expected
+        assert_seq([] > map(lambda x: x + 1), [])
     return
 
 
 @app.cell
-def _(increment, map, test):
+def _(assert_seq, increment, map, test):
     with test("map-composed"):
-        _result = list([2, 3, -5] > map(lambda x: x * 2) | increment)
-        _expected = [5, 7, -9]
-        assert _result == _expected
+        assert_seq([2, 3, -5] > map(lambda x: x * 2) | increment, [5, 7, -9])
     return
 
 
 @app.cell
-def _(add, mapargs, test):
+def _(add, assert_seq, mapargs, test):
     with test("mapargs-add"):
-        _result = list([(0, 7), (8, -2), (1, 3)] > mapargs(add))
-        _expected = [7, 6, 4]
-        assert _result == _expected
+        assert_seq([(0, 7), (8, -2), (1, 3)] > mapargs(add), [7, 6, 4])
     return
 
 
 @app.cell
-def _(mul, reduce, test):
+def _(assert_seq, mul, reduce, test):
     with test("reduce-mul"):
-        _result = list([2, 8, -1] > reduce(mul, 1))
-        _expected = [-16]
-        assert _result == _expected
+        assert_seq([2, 8, -1] > reduce(mul, 1), [-16])
     return
 
 
 @app.cell
-def _(mul, reduce, test):
+def _(assert_seq, mul, reduce, test):
     with test("reduce-mul-single-item"):
-        _result = list([2] > reduce(mul))
-        _expected = [2]
-        assert _result == _expected
+        assert_seq([2] > reduce(mul), [2])
     return
 
 
 @app.cell
-def _(mul, reduce, test):
+def _(assert_seq, mul, reduce, test):
     with test("reduce-mul-no-item"):
-        _result = list([] > reduce(mul, 3))
-        _expected = [3]
-        assert _result == _expected
+        assert_seq([] > reduce(mul, 3), [3])
     return
 
 
 @app.cell
-def _(reduce, test):
+def _(assert_seq, reduce, test):
     with test("reduce-changing-input-type"):
-        _result = list([4, 5, 6] > reduce(lambda lst, x: [x, *lst], []))
-        _expected = [[6, 5, 4]]
-        assert _result == _expected
+        assert_seq([4, 5, 6] > reduce(lambda lst, x: [x, *lst], []), [[6, 5, 4]])
     return
 
 
 @app.cell
-def _(filter, test):
+def _(assert_seq, filter, test):
     with test("filter"):
-        _result = list([4, -2, 0, 1, -1] > filter(lambda x: x < 0))
-        _expected = [-2, -1]
-        assert _result == _expected
+        assert_seq([4, -2, 0, 1, -1] > filter(lambda x: x < 0), [-2, -1])
     return
 
 
 @app.cell
-def _(add, filter, map, neg, reduce, test):
+def _(add, assert_seq, filter, map, neg, reduce, test):
     with test("map-filter-reduce"):
         _seq = map(neg) | filter(lambda x: x > 0) | reduce(add, 0)
-        _result = list((4, -2, 0, 1, -1) > _seq)
-        _expected = [3]
-        assert _result == _expected
+        assert_seq((4, -2, 0, 1, -1) > _seq, [3])
     return
 
 
