@@ -8,7 +8,6 @@ S = TypeVar("S", contravariant=True)
 T = TypeVar("T", covariant=True)
 U = TypeVar("U")
 Transform = Callable[[Iterator[S]], Iterator[T]]
-Consumer = Callable[[Iterator[T]], U]
 Predicate = Callable[[T], bool]
 Input = Union[Iterable[T], Iterator[T]]
 
@@ -35,29 +34,6 @@ class Sequence(Generic[S, T]):
         for filter in self.filters:
             i_ = filter(i_)
         return i_
-
-
-@dataclass
-class Terminal(Generic[S, T, U]):
-    sequence: Sequence[S, T]
-    consume: Consumer[T, U]
-
-    def __lt__(self, input: Input[S]) -> U:
-        return self.consume(input > self.sequence)
-
-
-@dataclass
-class sink(Generic[T, U]):
-    consume: Consumer[T, U]
-
-    def __ror__(self, sequence: Sequence[S, T]) -> Terminal[S, T, U]:
-        return Terminal[S, T, U](sequence=sequence, consume=self.consume)
-
-    def __lt__(self, input: Input[T]) -> U:
-        return input > Terminal[T, T, U](
-            sequence=Sequence[T, T](filters=[]),
-            consume=self.consume
-        )
 
 
 def step(fn: Transform[S, T]) -> Sequence[S, T]:
@@ -93,14 +69,15 @@ _dummy = _Dummy()
 def reduce(
     function: Callable[[U, T], U],
     initial: Union[U, _Dummy] = _dummy
-) -> sink[T, U]:
-    if initial is _dummy:
-        return sink(
-            lambda iteration: ft.reduce(function, iteration)  # type: ignore
-        )
-    return sink(
-        lambda iteration: ft.reduce(function, iteration, initial)  # type: ignore
-    )
+) -> Sequence[T, U]:
+    @step
+    def _reduce(elements: Iterator[T]) -> Iterator[U]:
+        if initial is _dummy:
+            yield ft.reduce(function, elements)  # type: ignore
+        else:
+            yield ft.reduce(function, elements, initial)  # type: ignore
+
+    return _reduce
 
 
 filter_ = filter
@@ -115,13 +92,11 @@ def filter(predicate: Predicate[T]) -> Sequence[T, T]:
 
 
 __all__ = [
-    "Consumer",
     "filter",
     "map",
     "mapargs",
     "reduce",
     "Sequence",
-    "sink",
     "step",
     "Transform",
 ]

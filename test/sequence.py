@@ -2,17 +2,17 @@
 
 import marimo
 
-__generated_with = "0.13.0"
+__generated_with = "0.13.2"
 app = marimo.App(width="full")
 
 
 @app.cell
 def _():
     from _test import test
-    from itercat import filter, map, mapargs, reduce, sink, step
+    from itercat import filter, map, mapargs, reduce, step
     import marimo as mo  # noqa
     from operator import add, mul, neg
-    return add, filter, map, mapargs, mul, neg, reduce, sink, step, test
+    return add, filter, map, mapargs, mul, neg, reduce, step, test
 
 
 @app.cell
@@ -98,28 +98,10 @@ def _(add, mapargs, test):
 
 
 @app.cell
-def _(map, sink, test):
-    with test("map-sink"):
-        _result = [4, 8, -2] > map(lambda x: x + 1) | sink(sum)
-        _expected = 13
-        assert _result == _expected
-    return
-
-
-@app.cell
-def _(sink, test):
-    with test("sink-alone"):
-        _result = [4, 8, -2] > sink(sum)
-        _expected = 10
-        assert _result == _expected
-    return
-
-
-@app.cell
 def _(mul, reduce, test):
     with test("reduce-mul"):
-        _result = [2, 8, -1] > reduce(mul, 1)
-        _expected = -16
+        _result = list([2, 8, -1] > reduce(mul, 1))
+        _expected = [-16]
         assert _result == _expected
     return
 
@@ -127,8 +109,8 @@ def _(mul, reduce, test):
 @app.cell
 def _(mul, reduce, test):
     with test("reduce-mul-single-item"):
-        _result = [2] > reduce(mul)
-        _expected = 2
+        _result = list([2] > reduce(mul))
+        _expected = [2]
         assert _result == _expected
     return
 
@@ -136,8 +118,8 @@ def _(mul, reduce, test):
 @app.cell
 def _(mul, reduce, test):
     with test("reduce-mul-no-item"):
-        _result = [] > reduce(mul, 3)
-        _expected = 3
+        _result = list([] > reduce(mul, 3))
+        _expected = [3]
         assert _result == _expected
     return
 
@@ -145,8 +127,8 @@ def _(mul, reduce, test):
 @app.cell
 def _(reduce, test):
     with test("reduce-changing-input-type"):
-        _result = [4, 5, 6] > reduce(lambda lst, x: [x, *lst], [])
-        _expected = [6, 5, 4]
+        _result = list([4, 5, 6] > reduce(lambda lst, x: [x, *lst], []))
+        _expected = [[6, 5, 4]]
         assert _result == _expected
     return
 
@@ -164,14 +146,9 @@ def _(filter, test):
 def _(add, filter, map, neg, reduce, test):
     with test("map-filter-reduce"):
         _seq = map(neg) | filter(lambda x: x > 0) | reduce(add, 0)
-        _result = (4, -2, 0, 1, -1) > _seq
-        _expected = 3
+        _result = list((4, -2, 0, 1, -1) > _seq)
+        _expected = [3]
         assert _result == _expected
-    return
-
-
-@app.cell
-def _():
     return
 
 
