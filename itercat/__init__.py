@@ -9,6 +9,7 @@ T = TypeVar("T", covariant=True)
 U = TypeVar("U")
 Transform = Callable[[Iterator[S]], Iterator[T]]
 Consumer = Callable[[Iterator[T]], U]
+Predicate = Callable[[T], bool]
 
 
 @dataclass
@@ -94,13 +95,25 @@ def reduce(
     )
 
 
+filter_ = filter
+
+
+def filter(predicate: Predicate[T]) -> Sequence[T, T]:
+    @step
+    def _filter(elements: Iterator[T]) -> Iterator[T]:
+        return filter_(predicate, elements)
+
+    return _filter
+
+
 __all__ = [
     "Consumer",
-    "Transform",
+    "filter",
     "map",
     "mapargs",
     "reduce",
     "Sequence",
     "sink",
     "step",
+    "Transform",
 ]

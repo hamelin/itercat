@@ -9,10 +9,10 @@ app = marimo.App(width="full")
 @app.cell
 def _():
     from _test import test
-    from itercat import map, mapargs, reduce, sink, step
+    from itercat import filter, map, mapargs, reduce, sink, step
     import marimo as mo  # noqa
-    from operator import add, mul
-    return add, map, mapargs, mul, reduce, sink, step, test
+    from operator import add, mul, neg
+    return add, filter, map, mapargs, mul, neg, reduce, sink, step, test
 
 
 @app.cell
@@ -147,6 +147,25 @@ def _(reduce, test):
     with test("reduce-changing-input-type"):
         _result = iter([4, 5, 6]) > reduce(lambda lst, x: [x, *lst], [])
         _expected = [6, 5, 4]
+        assert _result == _expected
+    return
+
+
+@app.cell
+def _(filter, test):
+    with test("filter"):
+        _result = list(iter([4, -2, 0, 1, -1]) > filter(lambda x: x < 0))
+        _expected = [-2, -1]
+        assert _result == _expected
+    return
+
+
+@app.cell
+def _(add, filter, map, neg, reduce, test):
+    with test("map-filter-reduce"):
+        _seq = map(neg) | filter(lambda x: x > 0) | reduce(add, 0)
+        _result = iter([4, -2, 0, 1, -1]) > _seq
+        _expected = 3
         assert _result == _expected
     return
 
