@@ -1,9 +1,7 @@
-from collections.abc import Iterator
+from collections.abc import Iterable, Iterator
 from dataclasses import dataclass
 import functools as ft
 from typing import Any, Callable, Generic, TypeVar, Union
-
-from ._map import apply_function_uniform, apply_function_variable, Function
 
 
 S = TypeVar("S", contravariant=True)
@@ -57,23 +55,23 @@ def step(fn: Filter[S, T]) -> Sequence[S, T]:
     return Sequence([fn])
 
 
-def map(
-    function: Function[T],
-    flatten_args: bool = True,
-    variable_input: bool = False
-) -> Sequence[S, T]:
+map_ = map
+
+
+def map(function: Callable[[S], T]) -> Sequence[S, T]:
     @step
     def _map(elements: Iterator[S]) -> Iterator[T]:
-        process = (
-            apply_function_variable
-            if variable_input
-            else apply_function_uniform
-        )
-        for x in elements:
-            y, process = process(function, x, flatten_args)  # type: ignore
-            yield y
+        return map_(function, elements)
 
     return _map
+
+
+def mapargs(function: Callable[..., T]) -> Sequence[Iterable, T]:
+    @step
+    def _mapargs(elements: Iterator[Iterable]) -> Iterator[T]:
+        return map_(lambda x: function(*x), elements)
+
+    return _mapargs
 
 
 class _Dummy:
@@ -100,6 +98,7 @@ __all__ = [
     "Consumer",
     "Filter",
     "map",
+    "mapargs",
     "reduce",
     "Sequence",
     "sink",

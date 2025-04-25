@@ -9,10 +9,10 @@ app = marimo.App(width="full")
 @app.cell
 def _():
     from _test import test
-    from itercat import map, reduce, sink, step
+    from itercat import map, mapargs, reduce, sink, step
     import marimo as mo  # noqa
     from operator import add, mul
-    return add, map, mul, reduce, sink, step, test
+    return add, map, mapargs, mul, reduce, sink, step, test
 
 
 @app.cell
@@ -54,7 +54,7 @@ def _(increment, test):
 
 @app.cell
 def _(map, test):
-    with test("map-simple"):
+    with test("map-numbers"):
         _result = list(iter([3, 0, -2]) > map(lambda x: x * 2))
         _expected = [6, 0, -4]
         assert _result == _expected
@@ -62,79 +62,37 @@ def _(map, test):
 
 
 @app.cell
-def _(add, map, test):
-    with test("map-tuple"):
-        _result = list(iter([(2, 3), (3, -8), (0, 77)]) > map(add))
-        _expected = [5, -5, 77]
-        assert _result == _expected
-    return
-
-
-@app.function
-def axpy(a, x, y=0):
-    return a * x + y
-
-
-@app.cell
 def _(map, test):
-    with test("map-args-kwargs"):
-        _result = list(
-            iter([((5, 8), {}), ((0, 9), {"y": -2}), ((4,), {"y": 8, "x": -2})]) > map(axpy)
-        )
-        _expected = [40, -2, 0]
+    with test("map-tuples"):
+        _result = list(iter([(2, 3), (3, -8, 9), ()]) > map(len))
+        _expected = [2, 3, 0]
         assert _result == _expected
     return
 
 
 @app.cell
 def _(map, test):
-    with test("map-on-empty"):
-        _result = list(iter([]) > map(axpy))
+    with test("map-empty"):
+        _result = list(iter([]) > map(lambda x: x + 1))
         _expected = []
         assert _result == _expected
     return
 
 
 @app.cell
-def _(map, test):
-    with test("map-on-tuples-fail"):
-        try:
-            for _ in iter([(1, 2)]) > map(lambda p: p[0]):
-                pass
-            assert False, "Should not get here"
-        except TypeError:
-            pass
-    return
-
-
-@app.cell
-def _(map, test):
-    with test("map-on-tuples-success"):
-        _result = list(iter([(1, 2)]) > map(lambda p: p[0], flatten_args=False))
-        _expected = [1]
+def _(increment, map, test):
+    with test("map-composed"):
+        _result = list(iter([2, 3, -5]) > map(lambda x: x * 2) | increment)
+        _expected = [5, 7, -9]
         assert _result == _expected
     return
 
 
 @app.cell
-def _(map, test):
-    def _counts_args(*args, **kwargs):
-        return (len(args), len(kwargs))
-
-
-    with test("map-variable-elements"):
-        _result = list(
-            iter(
-                [
-                    8,
-                    (4, 9, 0),
-                    ((), {}),
-                    ((3, 1), {"a": 5}),
-                ]
-            )
-            > map(_counts_args, variable_input=True)
-        )
-        _expected = [(1, 0), (3, 0), (0, 0), (2, 1)]
+def _(add, mapargs, test):
+    with test("mapargs-add"):
+        _result = list(iter([(0, 7), (8, -2), (1, 3)]) > mapargs(add))
+        _expected = [7, 6, 4]
         assert _result == _expected
     return
 
