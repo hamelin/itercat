@@ -43,7 +43,10 @@ for p in path_suite.iterdir():
         if p.is_file() and "app = marimo.App" in p.read_text("utf-8"):
             name_module = f"test.{p.with_suffix('').name}"
             loader = SourceFileLoader(name_module, str(p.absolute()))
-            module_test = module_from_spec(spec_from_loader(name_module, loader))
+            spec = spec_from_loader(name_module, loader)
+            if spec is None:
+                raise RuntimeError(f"Can't make module spec for test {name}")
+            module_test = module_from_spec(spec)
             loader.exec_module(module_test)
             if hasattr(module_test, "app"):
                 print(f"{name}: ", end="")
