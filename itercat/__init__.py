@@ -7,13 +7,13 @@ from typing import Any, Callable, Generic, TypeVar, Union
 S = TypeVar("S", contravariant=True)
 T = TypeVar("T", covariant=True)
 U = TypeVar("U")
-Filter = Callable[[Iterator[S]], Iterator[T]]
+Transform = Callable[[Iterator[S]], Iterator[T]]
 Consumer = Callable[[Iterator[T]], U]
 
 
 @dataclass
 class Sequence(Generic[S, T]):
-    filters: list[Filter]
+    filters: list[Transform]
 
     def __or__(self, tail: "Sequence[T, U]") -> "Sequence[S, U]":
         if not isinstance(tail, Sequence):
@@ -51,7 +51,7 @@ class sink(Generic[T, U]):
         )
 
 
-def step(fn: Filter[S, T]) -> Sequence[S, T]:
+def step(fn: Transform[S, T]) -> Sequence[S, T]:
     return Sequence([fn])
 
 
@@ -96,7 +96,7 @@ def reduce(
 
 __all__ = [
     "Consumer",
-    "Filter",
+    "Transform",
     "map",
     "mapargs",
     "reduce",
