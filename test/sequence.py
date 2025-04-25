@@ -48,14 +48,14 @@ def _(increment, iterations, test):
 @app.cell
 def _(increment, test):
     with test("notation_increment_thrice"):
-        assert list(iter([3, 0, -2]) > increment | increment | increment) == [6, 3, 1]
+        assert list([3, 0, -2] > increment | increment | increment) == [6, 3, 1]
     return
 
 
 @app.cell
 def _(map, test):
     with test("map-numbers"):
-        _result = list(iter([3, 0, -2]) > map(lambda x: x * 2))
+        _result = list([3, 0, -2] > map(lambda x: x * 2))
         _expected = [6, 0, -4]
         assert _result == _expected
     return
@@ -64,7 +64,7 @@ def _(map, test):
 @app.cell
 def _(map, test):
     with test("map-tuples"):
-        _result = list(iter([(2, 3), (3, -8, 9), ()]) > map(len))
+        _result = list([(2, 3), (3, -8, 9), ()] > map(len))
         _expected = [2, 3, 0]
         assert _result == _expected
     return
@@ -73,7 +73,7 @@ def _(map, test):
 @app.cell
 def _(map, test):
     with test("map-empty"):
-        _result = list(iter([]) > map(lambda x: x + 1))
+        _result = list([] > map(lambda x: x + 1))
         _expected = []
         assert _result == _expected
     return
@@ -82,7 +82,7 @@ def _(map, test):
 @app.cell
 def _(increment, map, test):
     with test("map-composed"):
-        _result = list(iter([2, 3, -5]) > map(lambda x: x * 2) | increment)
+        _result = list([2, 3, -5] > map(lambda x: x * 2) | increment)
         _expected = [5, 7, -9]
         assert _result == _expected
     return
@@ -91,7 +91,7 @@ def _(increment, map, test):
 @app.cell
 def _(add, mapargs, test):
     with test("mapargs-add"):
-        _result = list(iter([(0, 7), (8, -2), (1, 3)]) > mapargs(add))
+        _result = list([(0, 7), (8, -2), (1, 3)] > mapargs(add))
         _expected = [7, 6, 4]
         assert _result == _expected
     return
@@ -100,7 +100,7 @@ def _(add, mapargs, test):
 @app.cell
 def _(map, sink, test):
     with test("map-sink"):
-        _result = iter([4, 8, -2]) > map(lambda x: x + 1) | sink(sum)
+        _result = [4, 8, -2] > map(lambda x: x + 1) | sink(sum)
         _expected = 13
         assert _result == _expected
     return
@@ -109,7 +109,7 @@ def _(map, sink, test):
 @app.cell
 def _(sink, test):
     with test("sink-alone"):
-        _result = iter([4, 8, -2]) > sink(sum)
+        _result = [4, 8, -2] > sink(sum)
         _expected = 10
         assert _result == _expected
     return
@@ -118,7 +118,7 @@ def _(sink, test):
 @app.cell
 def _(mul, reduce, test):
     with test("reduce-mul"):
-        _result = iter([2, 8, -1]) > reduce(mul, 1)
+        _result = [2, 8, -1] > reduce(mul, 1)
         _expected = -16
         assert _result == _expected
     return
@@ -127,7 +127,7 @@ def _(mul, reduce, test):
 @app.cell
 def _(mul, reduce, test):
     with test("reduce-mul-single-item"):
-        _result = iter([2]) > reduce(mul)
+        _result = [2] > reduce(mul)
         _expected = 2
         assert _result == _expected
     return
@@ -136,7 +136,7 @@ def _(mul, reduce, test):
 @app.cell
 def _(mul, reduce, test):
     with test("reduce-mul-no-item"):
-        _result = iter([]) > reduce(mul, 3)
+        _result = [] > reduce(mul, 3)
         _expected = 3
         assert _result == _expected
     return
@@ -145,7 +145,7 @@ def _(mul, reduce, test):
 @app.cell
 def _(reduce, test):
     with test("reduce-changing-input-type"):
-        _result = iter([4, 5, 6]) > reduce(lambda lst, x: [x, *lst], [])
+        _result = [4, 5, 6] > reduce(lambda lst, x: [x, *lst], [])
         _expected = [6, 5, 4]
         assert _result == _expected
     return
@@ -154,7 +154,7 @@ def _(reduce, test):
 @app.cell
 def _(filter, test):
     with test("filter"):
-        _result = list(iter([4, -2, 0, 1, -1]) > filter(lambda x: x < 0))
+        _result = list([4, -2, 0, 1, -1] > filter(lambda x: x < 0))
         _expected = [-2, -1]
         assert _result == _expected
     return
@@ -164,9 +164,14 @@ def _(filter, test):
 def _(add, filter, map, neg, reduce, test):
     with test("map-filter-reduce"):
         _seq = map(neg) | filter(lambda x: x > 0) | reduce(add, 0)
-        _result = iter([4, -2, 0, 1, -1]) > _seq
+        _result = (4, -2, 0, 1, -1) > _seq
         _expected = 3
         assert _result == _expected
+    return
+
+
+@app.cell
+def _():
     return
 
 

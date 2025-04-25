@@ -1,7 +1,7 @@
 from collections.abc import Iterable, Iterator
 from dataclasses import dataclass
 import functools as ft
-from typing import Any, Callable, Generic, TypeVar, Union
+from typing import Any, Callable, cast, Generic, TypeVar, Union
 
 
 S = TypeVar("S", contravariant=True)
@@ -10,6 +10,15 @@ U = TypeVar("U")
 Transform = Callable[[Iterator[S]], Iterator[T]]
 Consumer = Callable[[Iterator[T]], U]
 Predicate = Callable[[T], bool]
+Input = Union[Iterable[T], Iterator[T]]
+
+
+def as_iterator(input: Input[T]) -> Iterator[T]:
+    if hasattr(input, "__next__"):
+        return cast(Iterator[T], input)
+    elif hasattr(input, "__iter__"):
+        return iter(input)
+    raise ValueError("Given input was neither an iterator nor an iterable.")
 
 
 @dataclass
@@ -21,9 +30,8 @@ class Sequence(Generic[S, T]):
             return NotImplemented
         return Sequence[S, U](self.filters + tail.filters)
 
-    def __lt__(self, iteration: Iterator[S]) -> Iterator[T]:
-        assert hasattr(iteration, "__next__")
-        i_: Iterator[Any] = iteration
+    def __lt__(self, input: Input[S]) -> Iterator[T]:
+        i_: Iterator[Any] = as_iterator(input)
         for filter in self.filters:
             i_ = filter(i_)
         return i_
@@ -34,8 +42,8 @@ class Terminal(Generic[S, T, U]):
     sequence: Sequence[S, T]
     consume: Consumer[T, U]
 
-    def __lt__(self, iteration: Iterator[S]) -> U:
-        return self.consume(iteration > self.sequence)
+    def __lt__(self, input: Input[S]) -> U:
+        return self.consume(input > self.sequence)
 
 
 @dataclass
@@ -45,8 +53,8 @@ class sink(Generic[T, U]):
     def __ror__(self, sequence: Sequence[S, T]) -> Terminal[S, T, U]:
         return Terminal[S, T, U](sequence=sequence, consume=self.consume)
 
-    def __lt__(self, iteration: Iterator[T]) -> U:
-        return iteration > Terminal[T, T, U](
+    def __lt__(self, input: Input[T]) -> U:
+        return input > Terminal[T, T, U](
             sequence=Sequence[T, T](filters=[]),
             consume=self.consume
         )
