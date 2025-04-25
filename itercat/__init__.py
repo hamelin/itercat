@@ -1,23 +1,36 @@
-from collections.abc import Iterable, Iterator
+from collections.abc import AsyncIterable, AsyncIterator, Iterable, Iterator
 from dataclasses import dataclass
-import functools as ft
-from typing import Any, Callable, cast, Generic, TypeVar, Union
+from typing import (
+    Callable,
+    cast,
+    Generic,
+    Optional,
+    overload,
+    TypeVar,
+    Union
+)
 
 
 S = TypeVar("S", contravariant=True)
 T = TypeVar("T", covariant=True)
 U = TypeVar("U")
-Transform = Callable[[Iterator[S]], Iterator[T]]
+Transform = Callable[[AsyncIterator[S]], AsyncIterator[T]]
 Predicate = Callable[[T], bool]
-Input = Union[Iterable[T], Iterator[T]]
+Cumulation = Callable[[U, T], U]
+Input = Union[AsyncIterable[T], AsyncIterator[T], Iterable[T], Iterator[T]]
 
 
-def as_iterator(input: Input[T]) -> Iterator[T]:
-    if hasattr(input, "__next__"):
-        return cast(Iterator[T], input)
+def as_iterator(input: Input[T]) -> AsyncIterator[T]:
+    if hasattr(input, "__anext__"):
+        return cast(AsyncIterator[T], input)
+    elif hasattr(input, "__aiter__"):
+        return aiter(cast(AsyncIterable[T], input))
     elif hasattr(input, "__iter__"):
-        return iter(input)
-    raise ValueError("Given input was neither an iterator nor an iterable.")
+        async def _iter():
+            for x in input:
+                yield x
+        return _iter()
+    raise ValueError(f"Can't iterate over input: {repr(input)}")
 
 
 @dataclass
@@ -29,8 +42,8 @@ class Sequence(Generic[S, T]):
             return NotImplemented
         return Sequence[S, U](self.filters + tail.filters)
 
-    def __lt__(self, input: Input[S]) -> Iterator[T]:
-        i_: Iterator[Any] = as_iterator(input)
+    def __lt__(self, input: Input[S]) -> AsyncIterator[T]:
+        i_: AsyncIterator = as_iterator(input)
         for filter in self.filters:
             i_ = filter(i_)
         return i_
@@ -40,58 +53,87 @@ def step(fn: Transform[S, T]) -> Sequence[S, T]:
     return Sequence([fn])
 
 
-map_ = map
-
-
 def map(function: Callable[[S], T]) -> Sequence[S, T]:
     @step
-    def _map(elements: Iterator[S]) -> Iterator[T]:
-        return map_(function, elements)
+    async def _map(elements: AsyncIterator[S]) -> AsyncIterator[T]:
+        async for x in elements:
+            yield function(x)
 
     return _map
 
 
 def mapargs(function: Callable[..., T]) -> Sequence[Iterable, T]:
     @step
-    def _mapargs(elements: Iterator[Iterable]) -> Iterator[T]:
-        return map_(lambda x: function(*x), elements)
+    async def _mapargs(elements: AsyncIterator[Iterable]) -> AsyncIterator[T]:
+        async for xs in elements:
+            yield function(*xs)
 
     return _mapargs
 
 
-class _Dummy:
-    pass
+@overload
+def cumulate(cumulation: Cumulation[U, T], initial: U) -> Sequence[T, U]:
+    ...
 
 
-_dummy = _Dummy()
+@overload
+def cumulate(cumulation: Cumulation[T, T], initial: Optional[T]) -> Sequence[T, T]:
+    ...
 
 
-def reduce(
-    function: Callable[[U, T], U],
-    initial: Union[U, _Dummy] = _dummy
-) -> Sequence[T, U]:
+def cumulate(cumulation, initial=None):
     @step
-    def _reduce(elements: Iterator[T]) -> Iterator[U]:
-        if initial is _dummy:
-            yield ft.reduce(function, elements)  # type: ignore
-        else:
-            yield ft.reduce(function, elements, initial)  # type: ignore
+    async def _cumulate(elements):
+        try:
+            if initial is None:
+                snowball = await anext(elements)
+            else:
+                snowball = initial
+
+            yield snowball
+            async for snowflake in elements:
+                snowball = cumulation(snowball, snowflake)
+                yield snowball
+        except StopAsyncIteration:
+            pass
+
+    return _cumulate
+
+
+@overload
+def reduce(cumulation: Cumulation[U, T], initial: U) -> Sequence[T, U]:
+    ...
+
+
+@overload
+def reduce(cumulation: Cumulation[T, T], initial: Optional[T]) -> Sequence[T, T]:
+    ...
+
+
+def reduce(cumulation, initial=None):
+    @step
+    async def _reduce(elements):
+        last = None
+        async for x in elements > cumulate(cumulation, initial):
+            last = x
+        if last is not None:
+            yield last
 
     return _reduce
 
 
-filter_ = filter
-
-
 def filter(predicate: Predicate[T]) -> Sequence[T, T]:
     @step
-    def _filter(elements: Iterator[T]) -> Iterator[T]:
-        return filter_(predicate, elements)
+    async def _filter(elements: AsyncIterator[T]) -> AsyncIterator[T]:
+        async for x in elements:
+            if predicate(x):
+                yield x
 
     return _filter
 
 
 __all__ = [
+    "cumulate",
     "filter",
     "map",
     "mapargs",

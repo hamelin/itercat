@@ -1,12 +1,10 @@
-from collections.abc import Iterable
+from collections.abc import AsyncIterable
 import itertools as it
 import marimo as mo
 from marimo._plugins.core.web_component import JSONType
 import pdb
 from types import TracebackType
 from typing import cast, Protocol, Self, TypeVar
-
-from itercat import Sequence
 
 
 S = TypeVar("S", covariant=True)
@@ -55,8 +53,11 @@ class SeqAssertionError(AssertionError):
     pass
 
 
-def assert_seq(seq: Sequence[S, T], expected: list[T]) -> None:
-    result = list(cast(Iterable[T], seq))
+async def assert_seq(seq: AsyncIterable[T], expected: list[T]) -> None:
+    result: list[T] = []
+    async for x in seq:
+        result.append(x)
+
     if not (result == expected):
         mo.output.append(mo.md(f"**{chr(128721)} Results don't match expectations**"))
         mo.output.append(
