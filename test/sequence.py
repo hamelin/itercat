@@ -2,7 +2,7 @@
 
 import marimo
 
-__generated_with = "0.13.2"
+__generated_with = "0.13.0"
 app = marimo.App(width="full")
 
 
@@ -13,6 +13,7 @@ def _():
     from operator import add, mul, neg
 
     from itercat import (
+        batch,
         cumulate,
         filter,
         map,
@@ -23,6 +24,7 @@ def _():
     return (
         add,
         assert_seq,
+        batch,
         cumulate,
         filter,
         map,
@@ -171,6 +173,33 @@ async def _(assert_seq, cumulate, mul, test):
         await assert_seq([] > cumulate(mul), [])
     with test("cumulate-empty-with-initial"):
         await assert_seq([] > cumulate(mul, 88), [88])
+    return
+
+
+@app.cell
+async def _(assert_seq, batch, test):
+    with test("batch-no-remainder"):
+        await assert_seq([2, 3, 4, 5, 6, 7] > batch(3), [(2, 3, 4), (5, 6, 7)])
+    return
+
+
+@app.cell
+async def _(assert_seq, batch, test):
+    with test("batch-with-remainder"):
+        await assert_seq([2, 3, 4, 5] > batch(3), [(2, 3, 4), (5,)])
+    return
+
+
+@app.cell
+def _(batch, test):
+    for n in [0, -2]:
+        with test(f"batch-bad-size-{n}"):
+            try:
+                batch(n)
+            except ValueError:
+                pass
+            else:
+                assert False, n
     return
 
 

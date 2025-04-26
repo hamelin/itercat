@@ -132,6 +132,25 @@ def filter(predicate: Predicate[T]) -> Sequence[T, T]:
     return _filter
 
 
+def batch(n: int) -> Sequence[T, tuple[T, ...]]:
+    if n < 1:
+        raise ValueError(f"The batch size must be at least 1 (got {n})")
+
+    @step
+    async def _batch(elements: AsyncIterator[T]) -> AsyncIterator[tuple[T, ...]]:
+        b: list[T] = []
+        async for x in elements:
+            b.append(x)
+            if len(b) == n:
+                yield tuple(b)
+                b.clear()
+        else:
+            if b:
+                yield tuple(b)
+
+    return _batch
+
+
 __all__ = [
     "cumulate",
     "filter",
