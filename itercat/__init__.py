@@ -151,6 +151,28 @@ def batch(n: int) -> Sequence[T, tuple[T, ...]]:
     return _batch
 
 
+def ngrams(n: int) -> Sequence[T, tuple[T, ...]]:
+    if n < 1:
+        raise ValueError(f"The size must be at least 1 (got {n})")
+
+    @step
+    async def _ngrams(elements: AsyncIterator[T]) -> AsyncIterator[tuple[T, ...]]:
+        ngram: list[T] = []
+        try:
+            for _ in range(n):
+                ngram.append(await anext(elements))
+            yield tuple(ngram)
+
+            async for x in elements:
+                del ngram[0]
+                ngram.append(x)
+                yield tuple(ngram)
+        except StopAsyncIteration:
+            pass
+
+    return _ngrams
+
+
 __all__ = [
     "cumulate",
     "filter",

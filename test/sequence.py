@@ -18,6 +18,7 @@ def _():
         filter,
         map,
         mapargs,
+        ngrams,
         reduce,
         step,
     )
@@ -31,6 +32,7 @@ def _():
         mapargs,
         mul,
         neg,
+        ngrams,
         reduce,
         step,
         test,
@@ -192,19 +194,43 @@ async def _(assert_seq, batch, test):
 
 @app.cell
 def _(batch, test):
-    for n in [0, -2]:
-        with test(f"batch-bad-size-{n}"):
+    for _n in [0, -2]:
+        with test(f"batch-bad-size_{_n}"):
             try:
-                batch(n)
+                batch(_n)
             except ValueError:
                 pass
             else:
-                assert False, n
+                assert False, _n
     return
 
 
 @app.cell
-def _():
+async def _(assert_seq, ngrams, test):
+    _nums = list(range(6))
+    for _n, _expected in [
+        (1, [(0,), (1,), (2,), (3,), (4,), (5,)]),
+        (2, [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5)]),
+        (3, [(0, 1, 2), (1, 2, 3), (2, 3, 4), (3, 4, 5)]),
+        (4, [(0, 1, 2, 3), (1, 2, 3, 4), (2, 3, 4, 5)]),
+        (5, [(0, 1, 2, 3, 4), (1, 2, 3, 4, 5)]),
+        (6, [(0, 1, 2, 3, 4, 5)]),
+        (7, []),
+    ]:
+        with test(f"ngrams-{_n}"):
+            await assert_seq(_nums > ngrams(_n), _expected)
+    return
+
+
+@app.cell
+def _(ngrams, test):
+    with test("ngrams-n-too-small"):
+        try:
+            ngrams(0)
+        except ValueError:
+            pass
+        else:
+            assert False
     return
 
 
