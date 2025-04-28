@@ -268,6 +268,38 @@ def clamp(predicate: Predicate[T]) -> Sequence[T, T]:
     return _clamp
 
 
+# TBD:
+#
+# tag, strip
+# sort
+# reverse
+# permutations
+# combinations
+# combinations_with_replacement
+# extend
+#
+# Multisequences:
+#
+# gather/mix (tagged mixing)
+# interleave
+# zip, zip_longest, separate
+# product
+# join.inner, join.outer, join.left, join.anti
+# groupby
+# cond
+# select
+# cat
+# dup
+#
+# Text:
+#
+# read, write (files)
+# lines
+# split
+# glue (join)
+# 
+
+
 __all__ = [
     "batch",
     "clamp",
