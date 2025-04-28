@@ -219,10 +219,62 @@ def slice_(
     return _slice_
 
 
+def head(n: int) -> Sequence[T, T]:
+    if n < 0:
+        raise ValueError(f"n must be positive (got {n})")
+
+    return slice_(0, n, 1)
+
+
+def tail(n: int) -> Sequence[T, T]:
+    if n < 0:
+        raise ValueError(f"n must be positive (got {n})")
+
+    @step
+    async def _tail(elements: AsyncIterator[T]) -> AsyncIterator[T]:
+        the_tail: list[T] = []
+        async for x in elements:
+            the_tail.append(x)
+            if len(the_tail) > n:
+                the_tail.pop(0)
+        for x in the_tail:
+            yield x
+
+    return _tail
+
+
+def cut(predicate: Predicate[T]) -> Sequence[T, T]:
+    @step
+    async def _cut(elements: AsyncIterator[T]) -> AsyncIterator[T]:
+        async for x in elements:
+            if not predicate(x):
+                break
+            yield x
+
+    return _cut
+
+
+def clamp(predicate: Predicate[T]) -> Sequence[T, T]:
+    @step
+    async def _clamp(elements: AsyncIterator[T]) -> AsyncIterator[T]:
+        async for x in elements:
+            if predicate(x):
+                continue
+            yield x
+            break
+        async for x in elements:
+            yield x
+
+    return _clamp
+
+
 __all__ = [
     "batch",
+    "clamp",
+    "cut",
     "cumulate",
     "filter",
+    "head",
     "map",
     "mapargs",
     "ngrams",
@@ -230,5 +282,6 @@ __all__ = [
     "Sequence",
     "slice_",
     "step",
+    "tail",
     "Transform",
 ]

@@ -2,35 +2,44 @@
 
 import marimo
 
-__generated_with = "0.13.0"
+__generated_with = "0.13.2"
 app = marimo.App(width="full")
 
 
 @app.cell
 def _():
     from _test import assert_raises, assert_seq, consume, test
+    import itertools as it
     import marimo as mo  # noqa
     from operator import add, mul, neg
 
     from itercat import (
         batch,
+        clamp,
+        cut,
         cumulate,
         filter,
+        head,
         map,
         mapargs,
         ngrams,
         reduce,
         slice_,
         step,
+        tail,
     )
     return (
         add,
         assert_raises,
         assert_seq,
         batch,
+        clamp,
         consume,
         cumulate,
+        cut,
         filter,
+        head,
+        it,
         map,
         mapargs,
         mul,
@@ -39,6 +48,7 @@ def _():
         reduce,
         slice_,
         step,
+        tail,
         test,
     )
 
@@ -264,6 +274,73 @@ async def _(assert_raises, assert_seq, consume, slice_, test):
     with test("slice-start-negative"):
         with assert_raises(ValueError):
             await consume(_nums > slice_(-2, 10))
+    return
+
+
+@app.cell
+def _():
+    letters = list("abcdefghijklmnopqrstuvqrstuvwxyz")
+    letters_few = letters[:3]
+    return letters, letters_few
+
+
+@app.cell
+async def _(
+    assert_raises,
+    assert_seq,
+    consume,
+    head,
+    letters,
+    letters_few,
+    test,
+):
+    for _n, _expected in [(5, list("abcde")), (0, [])]:
+        with test(f"head-{_n}"):
+            await assert_seq(letters > head(_n), _expected)
+
+    with test("head-negative"):
+        with assert_raises(ValueError):
+            await consume(letters > head(-1))
+
+    with test("head-short"):
+        await assert_seq(letters_few > head(5), letters_few)
+    return
+
+
+@app.cell
+async def _(
+    assert_raises,
+    assert_seq,
+    consume,
+    letters,
+    letters_few,
+    tail,
+    test,
+):
+    for _n, _expected in [(5, list("vwxyz")), (0, [])]:
+        with test(f"tail-{_n}"):
+            await assert_seq(letters > tail(_n), _expected)
+
+    with test("tail-negative"):
+        with assert_raises(ValueError):
+            await consume(letters > tail(-1))
+
+    with test("tail-short"):
+        await assert_seq(letters_few > tail(5), letters_few)
+    return
+
+
+@app.cell
+async def _(assert_seq, cut, it, test):
+    with test("cut"):
+        await assert_seq(it.count(0) > cut(lambda x: x < 10), list(range(10)))
+    return
+
+
+@app.cell
+async def _(assert_seq, clamp, test):
+    with test("clamp"):
+        await assert_seq([0, 0, 0, 0, 1, 0, 0, 2] > clamp(lambda x: x == 0), [1, 0, 0, 2])
     return
 
 
