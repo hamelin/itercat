@@ -1,4 +1,5 @@
-from collections.abc import AsyncIterable
+from collections.abc import AsyncIterable, Iterator
+from contextlib import contextmanager
 import itertools as it
 import marimo as mo
 from marimo._plugins.core.web_component import JSONType
@@ -69,3 +70,23 @@ async def assert_seq(seq: AsyncIterable[T], expected: list[T]) -> None:
             )
         )
         raise SeqAssertionError()
+
+
+async def consume(elements: AsyncIterable[T]) -> None:
+    async for _ in elements:
+        pass
+
+
+@contextmanager
+def assert_raises(type_exc: type[Exception]) -> Iterator[None]:
+    try:
+        yield
+    except Exception as err:
+        if isinstance(err, type_exc):
+            pass
+        else:
+            raise
+    else:
+        assert False, (
+            f"Iterating through the sequence was supposed to raise {type_exc.__name__}"
+        )

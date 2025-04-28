@@ -8,7 +8,7 @@ app = marimo.App(width="full")
 
 @app.cell
 def _():
-    from _test import assert_seq, test
+    from _test import assert_raises, assert_seq, consume, test
     import marimo as mo  # noqa
     from operator import add, mul, neg
 
@@ -20,12 +20,15 @@ def _():
         mapargs,
         ngrams,
         reduce,
+        slice_,
         step,
     )
     return (
         add,
+        assert_raises,
         assert_seq,
         batch,
+        consume,
         cumulate,
         filter,
         map,
@@ -34,6 +37,7 @@ def _():
         neg,
         ngrams,
         reduce,
+        slice_,
         step,
         test,
     )
@@ -231,6 +235,35 @@ def _(ngrams, test):
             pass
         else:
             assert False
+    return
+
+
+@app.cell
+async def _(assert_raises, assert_seq, consume, slice_, test):
+    _nums = list(range(12))
+    for _start, _stop, _step, _expected in [
+        (4, None, 1, [0, 1, 2, 3]),
+        (8, 10, 1, [8, 9]),
+        (3, 10, 3, [3, 6, 9]),
+        (5, 10, 2, [5, 7, 9]),
+        (7, 20, 1, [7, 8, 9, 10, 11]),
+        (5, 5, 1, []),
+        (8, 3, 1, []),
+        (6, 6, 6, []),
+        (0, -1, 1, []),
+    ]:
+        with test(f"slice-{_start}-{_stop}-{_step}"):
+            await assert_seq(_nums > slice_(_start, _stop, _step), _expected)
+
+    with test("slice-step-0"):
+        with assert_raises(ValueError):
+            await consume(_nums > slice_(4, step=0))
+    with test("slice-step-negative"):
+        with assert_raises(ValueError):
+            await consume(_nums > slice_(4, 0, step=-1))
+    with test("slice-start-negative"):
+        with assert_raises(ValueError):
+            await consume(_nums > slice_(-2, 10))
     return
 
 

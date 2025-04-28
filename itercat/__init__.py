@@ -53,6 +53,9 @@ def step(fn: Transform[S, T]) -> Sequence[S, T]:
     return Sequence([fn])
 
 
+_step_ = step
+
+
 def map(function: Callable[[S], T]) -> Sequence[S, T]:
     @step
     async def _map(elements: AsyncIterator[S]) -> AsyncIterator[T]:
@@ -171,6 +174,49 @@ def ngrams(n: int) -> Sequence[T, tuple[T, ...]]:
             pass
 
     return _ngrams
+
+
+async def _enumerate(elements: AsyncIterator[T]) -> AsyncIterator[tuple[int, T]]:
+    i = 0
+    try:
+        while True:
+            yield i, await anext(elements)
+            i += 1
+    except StopAsyncIteration:
+        pass
+
+
+def slice_(
+    n: int,
+    stop: Optional[int] = None,
+    step: int = 1
+) -> Sequence[T, T]:
+    if step < 1:
+        raise ValueError(f"Step must be at least 1; got {step}")
+    if stop is None:
+        start, end = 0, n
+    else:
+        start, end = n, stop
+    if start < 0:
+        raise ValueError(f"Start of the slice must be at least 0; got {start}")
+
+    @_step_
+    async def _slice_(elements: AsyncIterator[T]) -> AsyncIterator[T]:
+        enum = _enumerate(elements)
+        try:
+            while True:
+                i, last = await anext(enum)
+                if i == start:
+                    break
+
+            while i < end:
+                yield last
+                for _ in range(step):
+                    i, last = await anext(enum)
+        except StopAsyncIteration:
+            pass
+
+    return _slice_
 
 
 __all__ = [
