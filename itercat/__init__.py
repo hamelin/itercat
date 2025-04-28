@@ -220,12 +220,15 @@ def slice_(
 
 
 __all__ = [
+    "batch",
     "cumulate",
     "filter",
     "map",
     "mapargs",
+    "ngrams",
     "reduce",
     "Sequence",
+    "slice_",
     "step",
     "Transform",
 ]
