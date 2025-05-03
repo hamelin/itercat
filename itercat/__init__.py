@@ -1,7 +1,14 @@
-from collections.abc import AsyncIterable, AsyncIterator, Iterable, Iterator
+from collections.abc import (
+    AsyncIterable,
+    AsyncIterator,
+    Callable,
+    Hashable,
+    Iterable,
+    Iterator,
+    Sequence as _Sequence_,
+)
 from dataclasses import dataclass
 from typing import (
-    Callable,
     cast,
     Generic,
     Optional,
@@ -268,6 +275,32 @@ def clamp(predicate: Predicate[T]) -> Sequence[T, T]:
     return _clamp
 
 
+Tagged = tuple[Hashable, T]
+Tagger = Callable[[T], Hashable]
+
+
+@overload
+def tag(tagger: Tagger[U]) -> Sequence[U, Tagged[U]]:
+    ...
+
+
+@overload
+def tag(tagger: Union[int, str]) -> Sequence[_Sequence_, Tagged[_Sequence_]]:
+    ...
+
+
+def tag(tagger):
+    if hasattr(tagger, "__call__"):
+        tagger_ = cast(Tagger[U], tagger)
+    else:
+        index = int(tagger) if hasattr(tagger, "__int__") else str(tagger)
+
+        def tagger_(x: _Sequence_) -> Hashable:
+            return x[index]
+    return map(lambda x: (tagger_(x), x))
+
+
+strip: Sequence[Tagged[T], T] = map(lambda tagd: tagd[1])  # type: ignore
 # TBD:
 #
 # tag, strip
@@ -297,7 +330,6 @@ def clamp(predicate: Predicate[T]) -> Sequence[T, T]:
 # lines
 # split
 # glue (join)
-# 
 
 
 __all__ = [
@@ -314,6 +346,8 @@ __all__ = [
     "Sequence",
     "slice_",
     "step",
+    "strip",
+    "tag",
     "tail",
     "Transform",
 ]
