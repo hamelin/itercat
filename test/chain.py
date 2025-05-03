@@ -2,7 +2,7 @@
 
 import marimo
 
-__generated_with = "0.13.2"
+__generated_with = "0.13.0"
 app = marimo.App(width="full")
 
 
@@ -20,12 +20,14 @@ def _():
         cumulate,
         filter,
         head,
+        link,
         map,
         mapargs,
         ngrams,
         reduce,
         slice_,
-        step,
+        strip,
+        tag,
         tail,
     )
     return (
@@ -40,6 +42,7 @@ def _():
         filter,
         head,
         it,
+        link,
         map,
         mapargs,
         mul,
@@ -47,7 +50,8 @@ def _():
         ngrams,
         reduce,
         slice_,
-        step,
+        strip,
+        tag,
         tail,
         test,
     )
@@ -60,8 +64,8 @@ def _():
 
 
 @app.cell
-def _(step):
-    @step
+def _(link):
+    @link
     async def increment(nums):
         async for num in nums:
             yield num + 1
@@ -341,6 +345,51 @@ async def _(assert_seq, cut, it, test):
 async def _(assert_seq, clamp, test):
     with test("clamp"):
         await assert_seq([0, 0, 0, 0, 1, 0, 0, 2] > clamp(lambda x: x == 0), [1, 0, 0, 2])
+    return
+
+
+@app.cell
+async def _(assert_seq, tag, test):
+    with test("tag-numbers"):
+        await assert_seq(
+            range(10) > tag(lambda n: "zero-mod3" if n % 3 == 0 else "other"),
+            [
+                ("zero-mod3", 0),
+                ("other", 1),
+                ("other", 2),
+                ("zero-mod3", 3),
+                ("other", 4),
+                ("other", 5),
+                ("zero-mod3", 6),
+                ("other", 7),
+                ("other", 8),
+                ("zero-mod3", 9),
+            ],
+        )
+    return
+
+
+@app.cell
+async def _(assert_seq, tag, test):
+    with test("tag-records-by-index"):
+        await assert_seq(
+            [("asdf", 23, "qwer"), ("zxcv", 8, "ghgh"), ("asdf", 2, "poiu")] > tag(0),
+            [
+                ("asdf", ("asdf", 23, "qwer")),
+                ("zxcv", ("zxcv", 8, "ghgh")),
+                ("asdf", ("asdf", 2, "poiu")),
+            ],
+        )
+    return
+
+
+@app.cell
+async def _(assert_seq, strip, test):
+    with test("strip"):
+        await assert_seq(
+            [("b", 8), ("a", 12), ("a", 9), ("b", 0)] > strip,
+            [8, 12, 9, 0]
+        )
     return
 
 

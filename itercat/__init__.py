@@ -41,13 +41,13 @@ def as_iterator(input: Input[T]) -> AsyncIterator[T]:
 
 
 @dataclass
-class Sequence(Generic[S, T]):
+class Chain(Generic[S, T]):
     filters: list[Transform]
 
-    def __or__(self, tail: "Sequence[T, U]") -> "Sequence[S, U]":
-        if not isinstance(tail, Sequence):
+    def __or__(self, tail: "Chain[T, U]") -> "Chain[S, U]":
+        if not isinstance(tail, Chain):
             return NotImplemented
-        return Sequence[S, U](self.filters + tail.filters)
+        return Chain[S, U](self.filters + tail.filters)
 
     def __lt__(self, input: Input[S]) -> AsyncIterator[T]:
         i_: AsyncIterator = as_iterator(input)
@@ -56,15 +56,12 @@ class Sequence(Generic[S, T]):
         return i_
 
 
-def step(fn: Transform[S, T]) -> Sequence[S, T]:
-    return Sequence([fn])
+def link(fn: Transform[S, T]) -> Chain[S, T]:
+    return Chain([fn])
 
 
-_step_ = step
-
-
-def map(function: Callable[[S], T]) -> Sequence[S, T]:
-    @step
+def map(function: Callable[[S], T]) -> Chain[S, T]:
+    @link
     async def _map(elements: AsyncIterator[S]) -> AsyncIterator[T]:
         async for x in elements:
             yield function(x)
@@ -72,8 +69,8 @@ def map(function: Callable[[S], T]) -> Sequence[S, T]:
     return _map
 
 
-def mapargs(function: Callable[..., T]) -> Sequence[Iterable, T]:
-    @step
+def mapargs(function: Callable[..., T]) -> Chain[Iterable, T]:
+    @link
     async def _mapargs(elements: AsyncIterator[Iterable]) -> AsyncIterator[T]:
         async for xs in elements:
             yield function(*xs)
@@ -82,17 +79,17 @@ def mapargs(function: Callable[..., T]) -> Sequence[Iterable, T]:
 
 
 @overload
-def cumulate(cumulation: Cumulation[U, T], initial: U) -> Sequence[T, U]:
+def cumulate(cumulation: Cumulation[U, T], initial: U) -> Chain[T, U]:
     ...
 
 
 @overload
-def cumulate(cumulation: Cumulation[T, T], initial: Optional[T]) -> Sequence[T, T]:
+def cumulate(cumulation: Cumulation[T, T], initial: Optional[T]) -> Chain[T, T]:
     ...
 
 
 def cumulate(cumulation, initial=None):
-    @step
+    @link
     async def _cumulate(elements):
         try:
             if initial is None:
@@ -111,17 +108,17 @@ def cumulate(cumulation, initial=None):
 
 
 @overload
-def reduce(cumulation: Cumulation[U, T], initial: U) -> Sequence[T, U]:
+def reduce(cumulation: Cumulation[U, T], initial: U) -> Chain[T, U]:
     ...
 
 
 @overload
-def reduce(cumulation: Cumulation[T, T], initial: Optional[T]) -> Sequence[T, T]:
+def reduce(cumulation: Cumulation[T, T], initial: Optional[T]) -> Chain[T, T]:
     ...
 
 
 def reduce(cumulation, initial=None):
-    @step
+    @link
     async def _reduce(elements):
         last = None
         async for x in elements > cumulate(cumulation, initial):
@@ -132,8 +129,8 @@ def reduce(cumulation, initial=None):
     return _reduce
 
 
-def filter(predicate: Predicate[T]) -> Sequence[T, T]:
-    @step
+def filter(predicate: Predicate[T]) -> Chain[T, T]:
+    @link
     async def _filter(elements: AsyncIterator[T]) -> AsyncIterator[T]:
         async for x in elements:
             if predicate(x):
@@ -142,11 +139,11 @@ def filter(predicate: Predicate[T]) -> Sequence[T, T]:
     return _filter
 
 
-def batch(n: int) -> Sequence[T, tuple[T, ...]]:
+def batch(n: int) -> Chain[T, tuple[T, ...]]:
     if n < 1:
         raise ValueError(f"The batch size must be at least 1 (got {n})")
 
-    @step
+    @link
     async def _batch(elements: AsyncIterator[T]) -> AsyncIterator[tuple[T, ...]]:
         b: list[T] = []
         async for x in elements:
@@ -161,11 +158,11 @@ def batch(n: int) -> Sequence[T, tuple[T, ...]]:
     return _batch
 
 
-def ngrams(n: int) -> Sequence[T, tuple[T, ...]]:
+def ngrams(n: int) -> Chain[T, tuple[T, ...]]:
     if n < 1:
         raise ValueError(f"The size must be at least 1 (got {n})")
 
-    @step
+    @link
     async def _ngrams(elements: AsyncIterator[T]) -> AsyncIterator[tuple[T, ...]]:
         ngram: list[T] = []
         try:
@@ -197,7 +194,7 @@ def slice_(
     n: int,
     stop: Optional[int] = None,
     step: int = 1
-) -> Sequence[T, T]:
+) -> Chain[T, T]:
     if step < 1:
         raise ValueError(f"Step must be at least 1; got {step}")
     if stop is None:
@@ -207,7 +204,7 @@ def slice_(
     if start < 0:
         raise ValueError(f"Start of the slice must be at least 0; got {start}")
 
-    @_step_
+    @link
     async def _slice_(elements: AsyncIterator[T]) -> AsyncIterator[T]:
         enum = _enumerate(elements)
         try:
@@ -226,18 +223,18 @@ def slice_(
     return _slice_
 
 
-def head(n: int) -> Sequence[T, T]:
+def head(n: int) -> Chain[T, T]:
     if n < 0:
         raise ValueError(f"n must be positive (got {n})")
 
     return slice_(0, n, 1)
 
 
-def tail(n: int) -> Sequence[T, T]:
+def tail(n: int) -> Chain[T, T]:
     if n < 0:
         raise ValueError(f"n must be positive (got {n})")
 
-    @step
+    @link
     async def _tail(elements: AsyncIterator[T]) -> AsyncIterator[T]:
         the_tail: list[T] = []
         async for x in elements:
@@ -250,8 +247,8 @@ def tail(n: int) -> Sequence[T, T]:
     return _tail
 
 
-def cut(predicate: Predicate[T]) -> Sequence[T, T]:
-    @step
+def cut(predicate: Predicate[T]) -> Chain[T, T]:
+    @link
     async def _cut(elements: AsyncIterator[T]) -> AsyncIterator[T]:
         async for x in elements:
             if not predicate(x):
@@ -261,8 +258,8 @@ def cut(predicate: Predicate[T]) -> Sequence[T, T]:
     return _cut
 
 
-def clamp(predicate: Predicate[T]) -> Sequence[T, T]:
-    @step
+def clamp(predicate: Predicate[T]) -> Chain[T, T]:
+    @link
     async def _clamp(elements: AsyncIterator[T]) -> AsyncIterator[T]:
         async for x in elements:
             if predicate(x):
@@ -280,12 +277,12 @@ Tagger = Callable[[T], Hashable]
 
 
 @overload
-def tag(tagger: Tagger[U]) -> Sequence[U, Tagged[U]]:
+def tag(tagger: Tagger[U]) -> Chain[U, Tagged[U]]:
     ...
 
 
 @overload
-def tag(tagger: Union[int, str]) -> Sequence[_Sequence_, Tagged[_Sequence_]]:
+def tag(tagger: Union[int, str]) -> Chain[_Sequence_, Tagged[_Sequence_]]:
     ...
 
 
@@ -300,7 +297,7 @@ def tag(tagger):
     return map(lambda x: (tagger_(x), x))
 
 
-strip: Sequence[Tagged[T], T] = map(lambda tagd: tagd[1])  # type: ignore
+strip: Chain[Tagged[T], T] = map(lambda tagd: tagd[1])  # type: ignore
 # TBD:
 #
 # tag, strip
@@ -334,18 +331,18 @@ strip: Sequence[Tagged[T], T] = map(lambda tagd: tagd[1])  # type: ignore
 
 __all__ = [
     "batch",
+    "Chain",
     "clamp",
     "cut",
     "cumulate",
     "filter",
     "head",
+    "link",
     "map",
     "mapargs",
     "ngrams",
     "reduce",
-    "Sequence",
     "slice_",
-    "step",
     "strip",
     "tag",
     "tail",
