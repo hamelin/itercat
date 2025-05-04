@@ -336,10 +336,19 @@ async def sort(elements: AsyncIterator[Comparable[U]]) -> AsyncIterator[Comparab
         elems_all.append(x)
     for n in sorted(elems_all):
         yield n
+
+
+@link
+async def reverse(elements: AsyncIterator[U]) -> AsyncIterator[U]:
+    elems_all: list[U] = []
+    async for x in elements:
+        elems_all.append(x)
+    for x in elems_all[::-1]:
+        yield x
+
+
 # TBD:
 #
-# sort
-# reverse
 # permutations
 # combinations
 # combinations_with_replacement
@@ -379,6 +388,7 @@ __all__ = [
     "mapargs",
     "ngrams",
     "reduce",
+    "reverse",
     "sort",
     "slice_",
     "strip",

@@ -26,6 +26,7 @@ def _():
         mapargs,
         ngrams,
         reduce,
+        reverse,
         sort,
         slice_,
         strip,
@@ -53,6 +54,7 @@ def _():
         neg,
         ngrams,
         reduce,
+        reverse,
         slice_,
         sort,
         sqrt,
@@ -440,6 +442,14 @@ async def _(Tagged, assert_seq, cplxs, sort, sqrt, tag, test):
             ],
         )
 
+    return
+
+
+@app.cell
+async def _(assert_seq, cplxs, reverse, test):
+    for name, data in [("strings", ["qwer", "asdf", "zxcv", "tyty"]), ("complexes", cplxs)]:
+        with test(f"reverse-{name}"):
+            await assert_seq(data > reverse, list(reversed(data)))
     return
 
 
