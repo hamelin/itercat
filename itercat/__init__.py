@@ -275,13 +275,17 @@ def clamp(predicate: Predicate[T]) -> Chain[T, T]:
     return _clamp
 
 
-class Label(Protocol[H]):
+class Comparable(Protocol[U]):
 
     def __eq__(self, other: Any) -> bool:
         ...
 
-    def __lt__(self, other: "Label[H]") -> bool:
+    def __lt__(self, other: "Label[U]") -> bool:
         ...
+
+
+class Label(Comparable[H]):
+    pass
 
 
 @dataclass
@@ -325,6 +329,13 @@ def tag(labeler):
 strip: Chain[Tagged[U, H], U] = map(lambda tagd: tagd.data)  # type: ignore
 
 
+@link
+async def sort(elements: AsyncIterator[Comparable[U]]) -> AsyncIterator[Comparable[U]]:
+    elems_all: list[Comparable[U]] = []
+    async for x in elements:
+        elems_all.append(x)
+    for n in sorted(elems_all):
+        yield n
 # TBD:
 #
 # sort
@@ -368,6 +379,7 @@ __all__ = [
     "mapargs",
     "ngrams",
     "reduce",
+    "sort",
     "slice_",
     "strip",
     "tag",

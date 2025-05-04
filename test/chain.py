@@ -11,6 +11,7 @@ def _():
     from _test import assert_raises, assert_seq, consume, test
     import itertools as it
     import marimo as mo  # noqa
+    from math import sqrt
     from operator import add, mul, neg
 
     from itercat import (
@@ -25,6 +26,7 @@ def _():
         mapargs,
         ngrams,
         reduce,
+        sort,
         slice_,
         strip,
         tag,
@@ -52,6 +54,8 @@ def _():
         ngrams,
         reduce,
         slice_,
+        sort,
+        sqrt,
         strip,
         tag,
         tail,
@@ -398,6 +402,44 @@ async def _(Tagged, assert_seq, strip, test):
             > strip,
             [8, 12, 9, 0],
         )
+    return
+
+
+@app.cell
+async def _(assert_seq, sort, test):
+    with test("sort"):
+        await assert_seq(
+            ["zxcv", "ghgh", "poiu", "asdf", "qwer"] > sort,
+            ["asdf", "ghgh", "poiu", "qwer", "zxcv"]
+        )
+    return
+
+
+@app.cell
+async def _(assert_raises, consume, sort, test):
+    cplxs = [5 + 8j, 0 + 2j, 5 - 7j, 1.0]
+    with test("complex-not-comparable"):
+        with assert_raises(TypeError):
+            cplxs[0] < cplxs[1]
+    with test("sort-uncomparable-typeerror"):
+        with assert_raises(TypeError):
+            await consume(cplxs > sort)
+    return (cplxs,)
+
+
+@app.cell
+async def _(Tagged, assert_seq, cplxs, sort, sqrt, tag, test):
+    with test("sort-tagged-uncomparable"):
+        await assert_seq(
+            cplxs > tag(abs) | sort,
+            [
+                Tagged[float, complex](1.0, 1.0),
+                Tagged[float, complex](2.0, 0 + 2j),
+                Tagged[float, complex](sqrt(25 + 49), 5 - 7j),
+                Tagged[float, complex](sqrt(25 + 64), 5 + 8j),
+            ],
+        )
+
     return
 
 
