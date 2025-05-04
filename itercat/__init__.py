@@ -5,19 +5,22 @@ from collections.abc import (
     Hashable,
     Iterable,
     Iterator,
-    Sequence as _Sequence_,
+    Sequence,
 )
 from dataclasses import dataclass
 from typing import (
+    Any,
     cast,
     Generic,
     Optional,
+    Protocol,
     overload,
     TypeVar,
     Union
 )
 
 
+H = TypeVar("H", bound=Hashable)
 S = TypeVar("S", contravariant=True)
 T = TypeVar("T", covariant=True)
 U = TypeVar("U")
@@ -272,35 +275,58 @@ def clamp(predicate: Predicate[T]) -> Chain[T, T]:
     return _clamp
 
 
-Tagged = tuple[Hashable, T]
-Tagger = Callable[[T], Hashable]
+class Label(Protocol[H]):
+
+    def __eq__(self, other: Any) -> bool:
+        ...
+
+    def __lt__(self, other: "Label[H]") -> bool:
+        ...
+
+
+@dataclass
+class Tagged(Generic[H, U]):
+    label: Label[H]
+    data: U
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, type(self)):
+            return False
+        return self.label == other.label
+
+    def __lt__(self, other: "Tagged[H, Any]") -> bool:
+        return self.label < other.label
+
+
+Labeler = Callable[[U], Label[H]]
 
 
 @overload
-def tag(tagger: Tagger[U]) -> Chain[U, Tagged[U]]:
+def tag(tagger: Labeler[U, H]) -> Chain[U, Tagged[U, H]]:
     ...
 
 
 @overload
-def tag(tagger: Union[int, str]) -> Chain[_Sequence_, Tagged[_Sequence_]]:
+def tag(tagger: Union[int, str]) -> Chain[Sequence[H], Tagged[Sequence[H], H]]:
     ...
 
 
-def tag(tagger):
-    if hasattr(tagger, "__call__"):
-        tagger_ = cast(Tagger[U], tagger)
+def tag(labeler):
+    if hasattr(labeler, "__call__"):
+        labeler_ = cast(Labeler[U, H], labeler)
     else:
-        index = int(tagger) if hasattr(tagger, "__int__") else str(tagger)
+        index = int(labeler) if hasattr(labeler, "__int__") else str(labeler)
 
-        def tagger_(x: _Sequence_) -> Hashable:
+        def labeler_(x: Sequence[H]) -> Label[H]:
             return x[index]
-    return map(lambda x: (tagger_(x), x))
+    return map(lambda x: Tagged[U, H](labeler_(x), x))
 
 
-strip: Chain[Tagged[T], T] = map(lambda tagd: tagd[1])  # type: ignore
+strip: Chain[Tagged[U, H], U] = map(lambda tagd: tagd.data)  # type: ignore
+
+
 # TBD:
 #
-# tag, strip
 # sort
 # reverse
 # permutations
@@ -345,6 +371,7 @@ __all__ = [
     "slice_",
     "strip",
     "tag",
+    "Tagged",
     "tail",
     "Transform",
 ]

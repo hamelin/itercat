@@ -28,9 +28,11 @@ def _():
         slice_,
         strip,
         tag,
+        Tagged,
         tail,
     )
     return (
+        Tagged,
         add,
         assert_raises,
         assert_seq,
@@ -349,46 +351,52 @@ async def _(assert_seq, clamp, test):
 
 
 @app.cell
-async def _(assert_seq, tag, test):
+async def _(Tagged, assert_seq, tag, test):
     with test("tag-numbers"):
         await assert_seq(
             range(10) > tag(lambda n: "zero-mod3" if n % 3 == 0 else "other"),
             [
-                ("zero-mod3", 0),
-                ("other", 1),
-                ("other", 2),
-                ("zero-mod3", 3),
-                ("other", 4),
-                ("other", 5),
-                ("zero-mod3", 6),
-                ("other", 7),
-                ("other", 8),
-                ("zero-mod3", 9),
+                Tagged[str, int]("zero-mod3", 0),
+                Tagged[str, int]("other", 1),
+                Tagged[str, int]("other", 2),
+                Tagged[str, int]("zero-mod3", 3),
+                Tagged[str, int]("other", 4),
+                Tagged[str, int]("other", 5),
+                Tagged[str, int]("zero-mod3", 6),
+                Tagged[str, int]("other", 7),
+                Tagged[str, int]("other", 8),
+                Tagged[str, int]("zero-mod3", 9),
             ],
         )
     return
 
 
 @app.cell
-async def _(assert_seq, tag, test):
+async def _(Tagged, assert_seq, tag, test):
     with test("tag-records-by-index"):
         await assert_seq(
             [("asdf", 23, "qwer"), ("zxcv", 8, "ghgh"), ("asdf", 2, "poiu")] > tag(0),
             [
-                ("asdf", ("asdf", 23, "qwer")),
-                ("zxcv", ("zxcv", 8, "ghgh")),
-                ("asdf", ("asdf", 2, "poiu")),
+                Tagged[str, tuple[str, int, str]]("asdf", ("asdf", 23, "qwer")),
+                Tagged[str, tuple[str, int, str]]("zxcv", ("zxcv", 8, "ghgh")),
+                Tagged[str, tuple[str, int, str]]("asdf", ("asdf", 2, "poiu")),
             ],
         )
     return
 
 
 @app.cell
-async def _(assert_seq, strip, test):
+async def _(Tagged, assert_seq, strip, test):
     with test("strip"):
         await assert_seq(
-            [("b", 8), ("a", 12), ("a", 9), ("b", 0)] > strip,
-            [8, 12, 9, 0]
+            [
+                Tagged[str, int]("b", 8),
+                Tagged[str, int]("a", 12),
+                Tagged[str, int]("a", 9),
+                Tagged[str, int]("b", 0),
+            ]
+            > strip,
+            [8, 12, 9, 0],
         )
     return
 
