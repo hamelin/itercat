@@ -347,6 +347,25 @@ async def reverse(elements: AsyncIterator[U]) -> AsyncIterator[U]:
         yield x
 
 
+def extend(*segments: Union[Iterable[U], AsyncIterable[U]]) -> Chain[U, U]:
+    @link
+    async def _extend(head: AsyncIterator[U]) -> AsyncIterator[U]:
+        for segment in [head, *segments]:
+            if hasattr(segment, "__aiter__"):
+                async for x in segment:
+                    yield x
+            elif hasattr(segment, "__iter__"):
+                for x in segment:
+                    yield x
+            else:
+                raise ValueError(
+                    "One of the segments to extend the iteration is not iterable",
+                    segment
+                )
+
+    return _extend
+
+
 # TBD:
 #
 # permutations
@@ -381,6 +400,7 @@ __all__ = [
     "clamp",
     "cut",
     "cumulate",
+    "extend",
     "filter",
     "head",
     "link",

@@ -19,6 +19,7 @@ def _():
         clamp,
         cut,
         cumulate,
+        extend,
         filter,
         head,
         link,
@@ -44,6 +45,7 @@ def _():
         consume,
         cumulate,
         cut,
+        extend,
         filter,
         head,
         it,
@@ -450,6 +452,17 @@ async def _(assert_seq, cplxs, reverse, test):
     for name, data in [("strings", ["qwer", "asdf", "zxcv", "tyty"]), ("complexes", cplxs)]:
         with test(f"reverse-{name}"):
             await assert_seq(data > reverse, list(reversed(data)))
+    return
+
+
+@app.cell
+async def _(assert_seq, extend, test):
+    async def _iter():
+        yield 8
+        yield 7
+
+    with test("extend"):
+        await assert_seq([2, 3, 4] > extend(_iter(), [1, 2, 8]), [2, 3, 4, 8, 7, 1, 2, 8])
     return
 
 
