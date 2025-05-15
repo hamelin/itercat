@@ -1,3 +1,4 @@
+import asyncio
 from collections.abc import (
     AsyncIterable,
     AsyncIterator,
@@ -8,6 +9,8 @@ from collections.abc import (
     Sequence,
 )
 from dataclasses import dataclass
+from queue import Queue
+from threading import Thread
 from typing import (
     Any,
     cast,
@@ -43,20 +46,62 @@ def as_iterator(input: Input[T]) -> AsyncIterator[T]:
     raise ValueError(f"Can't iterate over input: {repr(input)}")
 
 
+class _EndOfIteration:
+    pass
+
+
+_end_of_iteration = _EndOfIteration()
+
+
+@dataclass
+class _ExceptionInIteration:
+    exception: Exception
+
+
+@dataclass
+class IteratorBicolor(Generic[T]):
+    _aiter: AsyncIterator[T]
+
+    def __aiter__(self) -> AsyncIterator[T]:
+        return self._aiter
+
+    def __iter__(self) -> Iterator[T]:
+        q: Queue[Union[T, _ExceptionInIteration, _EndOfIteration]] = Queue()
+
+        async def transfer_to_queue():
+            try:
+                async for x in self:
+                    q.put(x)
+                q.put(_end_of_iteration)
+            except Exception as ex:
+                q.put(_ExceptionInIteration(ex))
+
+        def run_transfer():
+            asyncio.run(transfer_to_queue())
+
+        th = Thread(target=run_transfer)
+        th.start()
+        while (_x := q.get()) is not _end_of_iteration:
+            if isinstance(_x, _ExceptionInIteration):
+                raise cast(_ExceptionInIteration, _x).exception
+            yield cast(T, _x)
+        th.join()
+
+
 @dataclass
 class Chain(Generic[S, T]):
-    filters: list[Transform]
+    links: list[Transform]
 
     def __or__(self, tail: "Chain[T, U]") -> "Chain[S, U]":
         if not isinstance(tail, Chain):
             return NotImplemented
-        return Chain[S, U](self.filters + tail.filters)
+        return Chain[S, U](self.links + tail.links)
 
-    def __lt__(self, input: Input[S]) -> AsyncIterator[T]:
+    def __lt__(self, input: Input[S]) -> IteratorBicolor[T]:
         i_: AsyncIterator = as_iterator(input)
-        for filter in self.filters:
-            i_ = filter(i_)
-        return i_
+        for link in self.links:
+            i_ = link(i_)
+        return IteratorBicolor[T](i_)
 
 
 def link(fn: Transform[S, T]) -> Chain[S, T]:
