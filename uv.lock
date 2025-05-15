@@ -1,0 +1,649 @@
+version = 1
+revision = 2
+requires-python = ">=3.11"
+
+[[package]]
+name = "anyio"
+version = "4.9.0"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+dependencies = [
+    { name = "idna" },
+    { name = "sniffio" },
+    { name = "typing-extensions", marker = "python_full_version < '3.13'" },
+]
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/anyio/4.9.0/anyio-4.9.0.tar.gz", hash = "sha256:673c0c244e15788651a4ff38710fea9675823028a6f08a5eda409e0c9840a028" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/anyio/4.9.0/anyio-4.9.0-py3-none-any.whl", hash = "sha256:9f76d541cad6e36af7beb62e978876f3b41e3e04f2c1fbf0884604c0a9c4d93c" },
+]
+
+[[package]]
+name = "click"
+version = "8.2.0"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+dependencies = [
+    { name = "colorama", marker = "sys_platform == 'win32'" },
+]
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/click/8.2.0/click-8.2.0.tar.gz", hash = "sha256:f5452aeddd9988eefa20f90f05ab66f17fce1ee2a36907fd30b05bbb5953814d" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/click/8.2.0/click-8.2.0-py3-none-any.whl", hash = "sha256:6b303f0b2aa85f1cb4e5303078fadcbcd4e476f114fab9b5007005711839325c" },
+]
+
+[[package]]
+name = "colorama"
+version = "0.4.6"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/colorama/0.4.6/colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/colorama/0.4.6/colorama-0.4.6-py2.py3-none-any.whl", hash = "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6" },
+]
+
+[[package]]
+name = "docstring-to-markdown"
+version = "0.17"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+dependencies = [
+    { name = "importlib-metadata" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/docstring-to-markdown/0.17/docstring_to_markdown-0.17.tar.gz", hash = "sha256:df72a112294c7492487c9da2451cae0faeee06e86008245c188c5761c9590ca3" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/docstring-to-markdown/0.17/docstring_to_markdown-0.17-py3-none-any.whl", hash = "sha256:fd7d5094aa83943bf5f9e1a13701866b7c452eac19765380dead666e36d3711c" },
+]
+
+[[package]]
+name = "docutils"
+version = "0.21.2"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/docutils/0.21.2/docutils-0.21.2.tar.gz", hash = "sha256:3a6b18732edf182daa3cd12775bbb338cf5691468f91eeeb109deff6ebfa986f" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/docutils/0.21.2/docutils-0.21.2-py3-none-any.whl", hash = "sha256:dafca5b9e384f0e419294eb4d2ff9fa826435bf15f15b7bd45723e8ad76811b2" },
+]
+
+[[package]]
+name = "flake8"
+version = "7.2.0"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+dependencies = [
+    { name = "mccabe" },
+    { name = "pycodestyle" },
+    { name = "pyflakes" },
+]
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/flake8/7.2.0/flake8-7.2.0.tar.gz", hash = "sha256:fa558ae3f6f7dbf2b4f22663e5343b6b6023620461f8d4ff2019ef4b5ee70426" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/flake8/7.2.0/flake8-7.2.0-py2.py3-none-any.whl", hash = "sha256:93b92ba5bdb60754a6da14fa3b93a9361fd00a59632ada61fd7b130436c40343" },
+]
+
+[[package]]
+name = "h11"
+version = "0.16.0"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/h11/0.16.0/h11-0.16.0.tar.gz", hash = "sha256:4e35b956cf45792e4caa5885e69fba00bdbc6ffafbfa020300e549b208ee5ff1" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/h11/0.16.0/h11-0.16.0-py3-none-any.whl", hash = "sha256:63cf8bbe7522de3bf65932fda1d9c2772064ffb3dae62d55932da54b31cb6c86" },
+]
+
+[[package]]
+name = "idna"
+version = "3.10"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/idna/3.10/idna-3.10.tar.gz", hash = "sha256:12f65c9b470abda6dc35cf8e63cc574b1c52b11df2c86030af0ac09b01b13ea9" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/idna/3.10/idna-3.10-py3-none-any.whl", hash = "sha256:946d195a0d259cbba61165e88e65941f16e9b36ea6ddb97f00452bae8b1287d3" },
+]
+
+[[package]]
+name = "importlib-metadata"
+version = "8.7.0"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+dependencies = [
+    { name = "zipp" },
+]
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/importlib-metadata/8.7.0/importlib_metadata-8.7.0.tar.gz", hash = "sha256:d13b81ad223b890aa16c5471f2ac3056cf76c5f10f82d6f9292f0b415f389000" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/importlib-metadata/8.7.0/importlib_metadata-8.7.0-py3-none-any.whl", hash = "sha256:e5dd1551894c77868a30651cef00984d50e1002d06942a7101d34870c5f02afd" },
+]
+
+[[package]]
+name = "iniconfig"
+version = "2.1.0"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/iniconfig/2.1.0/iniconfig-2.1.0.tar.gz", hash = "sha256:3abbd2e30b36733fee78f9c7f7308f2d0050e88f0087fd25c2645f63c773e1c7" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/iniconfig/2.1.0/iniconfig-2.1.0-py3-none-any.whl", hash = "sha256:9deba5723312380e77435581c6bf4935c94cbfab9b1ed33ef8d238ea168eb760" },
+]
+
+[[package]]
+name = "itercat"
+version = "0.0.1"
+source = { editable = "." }
+
+[package.dev-dependencies]
+dev = [
+    { name = "flake8" },
+    { name = "marimo" },
+    { name = "mypy" },
+    { name = "pytest" },
+    { name = "python-lsp-server" },
+    { name = "ruff" },
+]
+
+[package.metadata]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "flake8", specifier = ">=7.2.0" },
+    { name = "marimo", specifier = ">=0.13.8" },
+    { name = "mypy", specifier = ">=1.15.0" },
+    { name = "pytest", specifier = ">=8.3.5" },
+    { name = "python-lsp-server", specifier = ">=1.12.2" },
+    { name = "ruff", specifier = ">=0.11.9" },
+]
+
+[[package]]
+name = "itsdangerous"
+version = "2.2.0"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/itsdangerous/2.2.0/itsdangerous-2.2.0.tar.gz", hash = "sha256:e0050c0b7da1eea53ffaf149c0cfbb5c6e2e2b69c4bef22c81fa6eb73e5f6173" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/itsdangerous/2.2.0/itsdangerous-2.2.0-py3-none-any.whl", hash = "sha256:c6242fc49e35958c8b15141343aa660db5fc54d4f13a1db01a3f5891b98700ef" },
+]
+
+[[package]]
+name = "jedi"
+version = "0.19.2"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+dependencies = [
+    { name = "parso" },
+]
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/jedi/0.19.2/jedi-0.19.2.tar.gz", hash = "sha256:4770dc3de41bde3966b02eb84fbcf557fb33cce26ad23da12c742fb50ecb11f0" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/jedi/0.19.2/jedi-0.19.2-py2.py3-none-any.whl", hash = "sha256:a8ef22bde8490f57fe5c7681a3c83cb58874daf72b4784de3cce5b6ef6edb5b9" },
+]
+
+[[package]]
+name = "loro"
+version = "1.5.0"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0.tar.gz", hash = "sha256:8f2378608d32495e086157f37b1ae3bc747bedd1e49e9f41ade950ddced8641f" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp311-cp311-macosx_10_12_x86_64.whl", hash = "sha256:c569c3d9c901b2b2d9385670201df8d9032ac304d1dc5d0a7e47709031940c95" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:cb72460ff5e201250de534650a833ca0aed713b61176ba515ed47a749eec3cd4" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:2aabb6f34dc15455cd5eae57c6b0ff26c615585a3904c35aedfd83950ac9f51f" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp311-cp311-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:7357197f97f9f177bb1b4f9d9aace7fd8bc34cd95f2cf3a982ae2c648bc59463" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp311-cp311-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:6912601d1e3e06dd7fbeffdb6cbb7e85acae038e1205e5d97e4465b942082b5b" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp311-cp311-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:90da4352d3c69a4dfb57739697ceefdade1573b004147540c1189967695c2b7d" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:89b792130e38de440d3dbcc1492acd07cc50ca6644120cd5c05be9b8e1c174d0" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp311-cp311-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:92f851a399394dbcee2559b5ad8464c225df83cd5d391e382d6e656277a35104" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp311-cp311-musllinux_1_2_aarch64.whl", hash = "sha256:289543350e592d07d76b32b8093bbe58660ab4dbafd00c9d9ff09e9b0c39b823" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp311-cp311-musllinux_1_2_armv7l.whl", hash = "sha256:8798f1f2326877956533e7089647e79f587d234cffa22dbe1205e87528afc19f" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp311-cp311-musllinux_1_2_i686.whl", hash = "sha256:924f69a8addc3cdc71fb79df79a465219db5f101c6d0f5a0992fec5bf82df1d3" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp311-cp311-musllinux_1_2_x86_64.whl", hash = "sha256:5a4ee87531d697455e905e438db4f1e0981c790e505fa6f15780860b9e6d328a" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp311-cp311-win32.whl", hash = "sha256:155d939cf404d7523f3ff495677a74b2e9b32b02194a8c3960b65c9992f54905" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp311-cp311-win_amd64.whl", hash = "sha256:dde52d554d82f13d48c151a48813477798e3416d5d545babe9a175dce5bae96b" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp312-cp312-macosx_10_12_x86_64.whl", hash = "sha256:247616a66859b3f0e3d4c497caf4c021a9ef06d7d8e7eda6f7f8b8a68dd353d8" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:3ebb8d76fbd6a204b59c4a2c935b26898e3607942dc5855b7c45d52278987090" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:665604e8ca352fb0f463015e5a4fe976e8ac640e6a00ab7f35896b3b040031e5" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp312-cp312-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:d582fea3eb0f0acce5521161435fb0fea1c59da691948d07e3b8ac31956ca197" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp312-cp312-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:6ab5bd0697ed2c2c957db1df59a08d4bce0600412180a8ff0df76f6b5f34ed55" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp312-cp312-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:946fc782c4b5d689293ee7ab1ba46d41bba26025ccc62df872cad7bd8f86a418" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:273680afda0b5f0280a9e3415bd609c129f1a0f29121e943d89855791631638e" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp312-cp312-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:5be1f3fb3c51969a20e9093bd7db6a58e23ed847b4adfa793cd8c8c9404b1477" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp312-cp312-musllinux_1_2_aarch64.whl", hash = "sha256:de69a1580b321d720dd31d308980f59e0a37e9f268d49671dd91453e180f94ff" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp312-cp312-musllinux_1_2_armv7l.whl", hash = "sha256:6c5bf585b4d855ee538cc70dbf606dfed9deef96cd72e804cff93d852ebf791e" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp312-cp312-musllinux_1_2_i686.whl", hash = "sha256:eed228dd689217f940e6f68aaffb214e4cfe357e85a6c766a0e1ebc5e5ee7854" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:003fa2f2c4c3709efc38dd5ced6f4266c48ae4a049fe2c54e732843f074255c5" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp312-cp312-win32.whl", hash = "sha256:359ceae97ea7ddec05f3334625d861c3a9766466c8f628db74526e50d93aedb5" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp312-cp312-win_amd64.whl", hash = "sha256:65533c1fa9295d6d937c60486d24edc590e87fde77f18f1f67d78ced4ab6b8b5" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp313-cp313-macosx_10_12_x86_64.whl", hash = "sha256:1a6b384a37dca0c077ee5287122f5e08ac877eeed85da91c46f94cb6fa290ace" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:5d84ae79bcee557617e1086b18dfba9e9908b5838bea529c85e0f6b40c76c238" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:7054435c55ed83f34844af841387476e7064b541ed6d87f6e136ff12a1d81b03" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp313-cp313-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:f2d440a214a6d02581f1e5daa007f7bb49c9d81833cfa940abcc5161aba33474" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp313-cp313-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:149e73a476aa98402c0bbf96081c9248f9efe5971074048fd0168d0677f6a61a" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp313-cp313-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:a675cc6136b9da06d133a35c51afb8a7c9ab650d8d0376725fb1e945a0a06e6b" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:1c02e27bea663fd06fc2903fa39d7c572dc837a30517756f97a2c24449d99a25" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp313-cp313-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:171e35df7cd4e109d037b9a9d996709b3fe80aea5e8dbee161531f39d4fc8846" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp313-cp313-musllinux_1_2_aarch64.whl", hash = "sha256:c79d96958cabc14c4d7b04e9b01dc0641ba5f609b595bccfcbb7acc7b0498c70" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp313-cp313-musllinux_1_2_armv7l.whl", hash = "sha256:bf3176dc9aeaa5748ede6f8fb292c9d3388f9671e07108759cadec8ee25b3435" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp313-cp313-musllinux_1_2_i686.whl", hash = "sha256:3127ec3853aad1102753e3bf008edf143f7d9b9514b904bba838ddd6cba1c689" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:477dc48751c7243d07dfcb8887a3674287dbef78de2dd22acc1dcf94206e9542" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp313-cp313-win32.whl", hash = "sha256:6569c685ffaee50f3c3a614525cad2b521c7453836bcbfcf27fbe056246297b8" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp313-cp313-win_amd64.whl", hash = "sha256:cedf3f2af2053ca61983368e39a3b4e2c7502e32bcc9c38b15e209d3f2b8b317" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp313-cp313t-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:552352517205f287814fe51f888a2a7958e32c750d555d260d17c631032cc507" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp313-cp313t-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:155ad9df348438fa6f71e871a1e9ce342f9a159aaae20e5679169bbe6a1dfaf7" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp313-cp313t-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:36529f9d59f2e7fb4992e49dad6b5e35e949c38282173161993af818ce15fe68" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp313-cp313t-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:644c8cdc026851b205e042943f0b1c96f68f26be3f9108f3766692b583eaa843" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp313-cp313t-musllinux_1_2_aarch64.whl", hash = "sha256:a509cd9a689efd0163d1c3c1bd35f3b5cc08a4db9919fdc17eb2240bda173d24" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp313-cp313t-musllinux_1_2_armv7l.whl", hash = "sha256:e4e8db8defc5b50c71c354b9589aab85dfa39dc05625a67234bd50d857cd2404" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp313-cp313t-musllinux_1_2_i686.whl", hash = "sha256:5bfd6f5422bcca9faf1f2b3a495d452c1471f54be63281c4a07ea1877a10d3e5" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-cp313-cp313t-musllinux_1_2_x86_64.whl", hash = "sha256:afb38f08dc3e8ec14e012f68c1aef4b633a1ba7fb7dfe235839f87bdd6c8548c" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-pp311-pypy311_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:4e1695b5359b82cd3f0ee3248f495f5a4d6c00b40d01002009a26c95a8a40944" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-pp311-pypy311_pp73-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:ef671319f21d17c9bd4dfc9c88ec1373c5aef684967c50844d9c12c4f03aef21" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-pp311-pypy311_pp73-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:dca70d05ea340d225c97464ebaadb7b823c3a1f7b0ab914620e8ea2b151cafd0" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-pp311-pypy311_pp73-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:c19f77b759d8a8ca67d74e9b5694a27ae411e1ed0f7f6066ce26ce51ef7446d8" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-pp311-pypy311_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9a68cb35d469b014e792df1dd7eea2195bc652821f77eb3dc992ec10592cfab7" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-pp311-pypy311_pp73-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:7e3444d25d7f20f490390fa48c0bc3fbdc940b2db8fd6e4319fb191c37b3fbe9" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-pp311-pypy311_pp73-musllinux_1_2_aarch64.whl", hash = "sha256:2f46392329212cb22c366a55c89ee29b1465f162ee2cd3add07514d88833fa9c" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-pp311-pypy311_pp73-musllinux_1_2_armv7l.whl", hash = "sha256:3742e1f7250043936600d3de9e26098edf85cdce255a3365d62d058cb3903c45" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-pp311-pypy311_pp73-musllinux_1_2_i686.whl", hash = "sha256:675b0898912531c4a3e91e97e70b0b6ce46bcffa4f1f2a0dd9db7df74afe3cc9" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/loro/1.5.0/loro-1.5.0-pp311-pypy311_pp73-musllinux_1_2_x86_64.whl", hash = "sha256:8a201d468e90216505bc8b432f92c5ce95769eb73f3c277e955962f1bcea6cb4" },
+]
+
+[[package]]
+name = "marimo"
+version = "0.13.8"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+dependencies = [
+    { name = "click" },
+    { name = "docutils" },
+    { name = "itsdangerous" },
+    { name = "jedi" },
+    { name = "loro" },
+    { name = "markdown" },
+    { name = "narwhals" },
+    { name = "packaging" },
+    { name = "psutil" },
+    { name = "pygments" },
+    { name = "pymdown-extensions" },
+    { name = "pyyaml" },
+    { name = "starlette" },
+    { name = "tomlkit" },
+    { name = "uvicorn" },
+    { name = "websockets" },
+]
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/marimo/0.13.8/marimo-0.13.8.tar.gz", hash = "sha256:db4440a4618e1467980c27b25ccf2b1c3e30f02607966fa2930cc7afc3f52a91" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/marimo/0.13.8/marimo-0.13.8-py3-none-any.whl", hash = "sha256:2c355460de12a01d85b0b47ab2b64aaa6868b2c7eab7378c398e764cc530eed6" },
+]
+
+[[package]]
+name = "markdown"
+version = "3.8"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/markdown/3.8/markdown-3.8.tar.gz", hash = "sha256:7df81e63f0df5c4b24b7d156eb81e4690595239b7d70937d0409f1b0de319c6f" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/markdown/3.8/markdown-3.8-py3-none-any.whl", hash = "sha256:794a929b79c5af141ef5ab0f2f642d0f7b1872981250230e72682346f7cc90dc" },
+]
+
+[[package]]
+name = "mccabe"
+version = "0.7.0"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/mccabe/0.7.0/mccabe-0.7.0.tar.gz", hash = "sha256:348e0240c33b60bbdf4e523192ef919f28cb2c3d7d5c7794f74009290f236325" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/mccabe/0.7.0/mccabe-0.7.0-py2.py3-none-any.whl", hash = "sha256:6c2d30ab6be0e4a46919781807b4f0d834ebdd6c6e3dca0bda5a15f863427b6e" },
+]
+
+[[package]]
+name = "mypy"
+version = "1.15.0"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+dependencies = [
+    { name = "mypy-extensions" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/mypy/1.15.0/mypy-1.15.0.tar.gz", hash = "sha256:404534629d51d3efea5c800ee7c42b72a6554d6c400e6a79eafe15d11341fd43" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/mypy/1.15.0/mypy-1.15.0-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:2922d42e16d6de288022e5ca321cd0618b238cfc5570e0263e5ba0a77dbef56f" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/mypy/1.15.0/mypy-1.15.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:2ee2d57e01a7c35de00f4634ba1bbf015185b219e4dc5909e281016df43f5ee5" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/mypy/1.15.0/mypy-1.15.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:973500e0774b85d9689715feeffcc980193086551110fd678ebe1f4342fb7c5e" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/mypy/1.15.0/mypy-1.15.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:5a95fb17c13e29d2d5195869262f8125dfdb5c134dc8d9a9d0aecf7525b10c2c" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/mypy/1.15.0/mypy-1.15.0-cp311-cp311-musllinux_1_2_x86_64.whl", hash = "sha256:1905f494bfd7d85a23a88c5d97840888a7bd516545fc5aaedff0267e0bb54e2f" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/mypy/1.15.0/mypy-1.15.0-cp311-cp311-win_amd64.whl", hash = "sha256:c9817fa23833ff189db061e6d2eff49b2f3b6ed9856b4a0a73046e41932d744f" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/mypy/1.15.0/mypy-1.15.0-cp312-cp312-macosx_10_13_x86_64.whl", hash = "sha256:aea39e0583d05124836ea645f412e88a5c7d0fd77a6d694b60d9b6b2d9f184fd" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/mypy/1.15.0/mypy-1.15.0-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:2f2147ab812b75e5b5499b01ade1f4a81489a147c01585cda36019102538615f" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/mypy/1.15.0/mypy-1.15.0-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:ce436f4c6d218a070048ed6a44c0bbb10cd2cc5e272b29e7845f6a2f57ee4464" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/mypy/1.15.0/mypy-1.15.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:8023ff13985661b50a5928fc7a5ca15f3d1affb41e5f0a9952cb68ef090b31ee" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/mypy/1.15.0/mypy-1.15.0-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:1124a18bc11a6a62887e3e137f37f53fbae476dc36c185d549d4f837a2a6a14e" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/mypy/1.15.0/mypy-1.15.0-cp312-cp312-win_amd64.whl", hash = "sha256:171a9ca9a40cd1843abeca0e405bc1940cd9b305eaeea2dda769ba096932bb22" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/mypy/1.15.0/mypy-1.15.0-cp313-cp313-macosx_10_13_x86_64.whl", hash = "sha256:93faf3fdb04768d44bf28693293f3904bbb555d076b781ad2530214ee53e3445" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/mypy/1.15.0/mypy-1.15.0-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:811aeccadfb730024c5d3e326b2fbe9249bb7413553f15499a4050f7c30e801d" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/mypy/1.15.0/mypy-1.15.0-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:98b7b9b9aedb65fe628c62a6dc57f6d5088ef2dfca37903a7d9ee374d03acca5" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/mypy/1.15.0/mypy-1.15.0-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:c43a7682e24b4f576d93072216bf56eeff70d9140241f9edec0c104d0c515036" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/mypy/1.15.0/mypy-1.15.0-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:baefc32840a9f00babd83251560e0ae1573e2f9d1b067719479bfb0e987c6357" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/mypy/1.15.0/mypy-1.15.0-cp313-cp313-win_amd64.whl", hash = "sha256:b9378e2c00146c44793c98b8d5a61039a048e31f429fb0eb546d93f4b000bedf" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/mypy/1.15.0/mypy-1.15.0-py3-none-any.whl", hash = "sha256:5469affef548bd1895d86d3bf10ce2b44e33d86923c29e4d675b3e323437ea3e" },
+]
+
+[[package]]
+name = "mypy-extensions"
+version = "1.1.0"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/mypy-extensions/1.1.0/mypy_extensions-1.1.0.tar.gz", hash = "sha256:52e68efc3284861e772bbcd66823fde5ae21fd2fdb51c62a211403730b916558" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/mypy-extensions/1.1.0/mypy_extensions-1.1.0-py3-none-any.whl", hash = "sha256:1be4cccdb0f2482337c4743e60421de3a356cd97508abadd57d47403e94f5505" },
+]
+
+[[package]]
+name = "narwhals"
+version = "1.39.0"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/narwhals/1.39.0/narwhals-1.39.0.tar.gz", hash = "sha256:6f114def701fc6a23b0523ad53700ae545ad3f5ece041c64dc3ad59e699da43f" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/narwhals/1.39.0/narwhals-1.39.0-py3-none-any.whl", hash = "sha256:50b6778f4b4249eb86c88dd17c3907dd004a16ec25b02d5effaf226a2bcfb940" },
+]
+
+[[package]]
+name = "packaging"
+version = "25.0"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/packaging/25.0/packaging-25.0.tar.gz", hash = "sha256:d443872c98d677bf60f6a1f2f8c1cb748e8fe762d2bf9d3148b5599295b0fc4f" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/packaging/25.0/packaging-25.0-py3-none-any.whl", hash = "sha256:29572ef2b1f17581046b3a2227d5c611fb25ec70ca1ba8554b24b0e69331a484" },
+]
+
+[[package]]
+name = "parso"
+version = "0.8.4"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/parso/0.8.4/parso-0.8.4.tar.gz", hash = "sha256:eb3a7b58240fb99099a345571deecc0f9540ea5f4dd2fe14c2a99d6b281ab92d" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/parso/0.8.4/parso-0.8.4-py2.py3-none-any.whl", hash = "sha256:a418670a20291dacd2dddc80c377c5c3791378ee1e8d12bffc35420643d43f18" },
+]
+
+[[package]]
+name = "pluggy"
+version = "1.5.0"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pluggy/1.5.0/pluggy-1.5.0.tar.gz", hash = "sha256:2cffa88e94fdc978c4c574f15f9e59b7f4201d439195c3715ca9e2486f1d0cf1" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pluggy/1.5.0/pluggy-1.5.0-py3-none-any.whl", hash = "sha256:44e1ad92c8ca002de6377e165f3e0f1be63266ab4d554740532335b9d75ea669" },
+]
+
+[[package]]
+name = "psutil"
+version = "7.0.0"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/psutil/7.0.0/psutil-7.0.0.tar.gz", hash = "sha256:7be9c3eba38beccb6495ea33afd982a44074b78f28c434a1f51cc07fd315c456" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/psutil/7.0.0/psutil-7.0.0-cp36-abi3-macosx_10_9_x86_64.whl", hash = "sha256:101d71dc322e3cffd7cea0650b09b3d08b8e7c4109dd6809fe452dfd00e58b25" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/psutil/7.0.0/psutil-7.0.0-cp36-abi3-macosx_11_0_arm64.whl", hash = "sha256:39db632f6bb862eeccf56660871433e111b6ea58f2caea825571951d4b6aa3da" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/psutil/7.0.0/psutil-7.0.0-cp36-abi3-manylinux_2_12_i686.manylinux2010_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:1fcee592b4c6f146991ca55919ea3d1f8926497a713ed7faaf8225e174581e91" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/psutil/7.0.0/psutil-7.0.0-cp36-abi3-manylinux_2_12_x86_64.manylinux2010_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:4b1388a4f6875d7e2aff5c4ca1cc16c545ed41dd8bb596cefea80111db353a34" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/psutil/7.0.0/psutil-7.0.0-cp36-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:a5f098451abc2828f7dc6b58d44b532b22f2088f4999a937557b603ce72b1993" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/psutil/7.0.0/psutil-7.0.0-cp37-abi3-win32.whl", hash = "sha256:ba3fcef7523064a6c9da440fc4d6bd07da93ac726b5733c29027d7dc95b39d99" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/psutil/7.0.0/psutil-7.0.0-cp37-abi3-win_amd64.whl", hash = "sha256:4cf3d4eb1aa9b348dec30105c55cd9b7d4629285735a102beb4441e38db90553" },
+]
+
+[[package]]
+name = "pycodestyle"
+version = "2.13.0"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pycodestyle/2.13.0/pycodestyle-2.13.0.tar.gz", hash = "sha256:c8415bf09abe81d9c7f872502a6eee881fbe85d8763dd5b9924bb0a01d67efae" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pycodestyle/2.13.0/pycodestyle-2.13.0-py2.py3-none-any.whl", hash = "sha256:35863c5974a271c7a726ed228a14a4f6daf49df369d8c50cd9a6f58a5e143ba9" },
+]
+
+[[package]]
+name = "pyflakes"
+version = "3.3.2"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyflakes/3.3.2/pyflakes-3.3.2.tar.gz", hash = "sha256:6dfd61d87b97fba5dcfaaf781171ac16be16453be6d816147989e7f6e6a9576b" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyflakes/3.3.2/pyflakes-3.3.2-py2.py3-none-any.whl", hash = "sha256:5039c8339cbb1944045f4ee5466908906180f13cc99cc9949348d10f82a5c32a" },
+]
+
+[[package]]
+name = "pygments"
+version = "2.19.1"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pygments/2.19.1/pygments-2.19.1.tar.gz", hash = "sha256:61c16d2a8576dc0649d9f39e089b5f02bcd27fba10d8fb4dcc28173f7a45151f" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pygments/2.19.1/pygments-2.19.1-py3-none-any.whl", hash = "sha256:9ea1544ad55cecf4b8242fab6dd35a93bbce657034b0611ee383099054ab6d8c" },
+]
+
+[[package]]
+name = "pymdown-extensions"
+version = "10.15"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+dependencies = [
+    { name = "markdown" },
+    { name = "pyyaml" },
+]
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pymdown-extensions/10.15/pymdown_extensions-10.15.tar.gz", hash = "sha256:0e5994e32155f4b03504f939e501b981d306daf7ec2aa1cd2eb6bd300784f8f7" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pymdown-extensions/10.15/pymdown_extensions-10.15-py3-none-any.whl", hash = "sha256:46e99bb272612b0de3b7e7caf6da8dd5f4ca5212c0b273feb9304e236c484e5f" },
+]
+
+[[package]]
+name = "pytest"
+version = "8.3.5"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+dependencies = [
+    { name = "colorama", marker = "sys_platform == 'win32'" },
+    { name = "iniconfig" },
+    { name = "packaging" },
+    { name = "pluggy" },
+]
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pytest/8.3.5/pytest-8.3.5.tar.gz", hash = "sha256:f4efe70cc14e511565ac476b57c279e12a855b11f48f212af1080ef2263d3845" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pytest/8.3.5/pytest-8.3.5-py3-none-any.whl", hash = "sha256:c69214aa47deac29fad6c2a4f590b9c4a9fdb16a403176fe154b79c0b4d4d820" },
+]
+
+[[package]]
+name = "python-lsp-jsonrpc"
+version = "1.1.2"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+dependencies = [
+    { name = "ujson" },
+]
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/python-lsp-jsonrpc/1.1.2/python-lsp-jsonrpc-1.1.2.tar.gz", hash = "sha256:4688e453eef55cd952bff762c705cedefa12055c0aec17a06f595bcc002cc912" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/python-lsp-jsonrpc/1.1.2/python_lsp_jsonrpc-1.1.2-py3-none-any.whl", hash = "sha256:7339c2e9630ae98903fdaea1ace8c47fba0484983794d6aafd0bd8989be2b03c" },
+]
+
+[[package]]
+name = "python-lsp-server"
+version = "1.12.2"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+dependencies = [
+    { name = "docstring-to-markdown" },
+    { name = "jedi" },
+    { name = "pluggy" },
+    { name = "python-lsp-jsonrpc" },
+    { name = "ujson" },
+]
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/python-lsp-server/1.12.2/python_lsp_server-1.12.2.tar.gz", hash = "sha256:fea039a36b3132774d0f803671184cf7dde0c688e7b924f23a6359a66094126d" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/python-lsp-server/1.12.2/python_lsp_server-1.12.2-py3-none-any.whl", hash = "sha256:750116459449184ba20811167cdf96f91296ae12f1f65ebd975c5c159388111b" },
+]
+
+[[package]]
+name = "pyyaml"
+version = "6.0.2"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/pyyaml-6.0.2.tar.gz", hash = "sha256:d584d9ec91ad65861cc08d42e834324ef890a082e591037abe114850ff7bbc3e" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:cc1c1159b3d456576af7a3e4d1ba7e6924cb39de8f67111c735f6fc832082774" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:1e2120ef853f59c7419231f3bf4e7021f1b936f6ebd222406c3b60212205d2ee" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:5d225db5a45f21e78dd9358e58a98702a0302f2659a3c6cd320564b75b86f47c" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp311-cp311-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:5ac9328ec4831237bec75defaf839f7d4564be1e6b25ac710bd1a96321cc8317" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:3ad2a3decf9aaba3d29c8f537ac4b243e36bef957511b4766cb0057d32b0be85" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp311-cp311-musllinux_1_1_aarch64.whl", hash = "sha256:ff3824dc5261f50c9b0dfb3be22b4567a6f938ccce4587b38952d85fd9e9afe4" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp311-cp311-musllinux_1_1_x86_64.whl", hash = "sha256:797b4f722ffa07cc8d62053e4cff1486fa6dc094105d13fea7b1de7d8bf71c9e" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp311-cp311-win32.whl", hash = "sha256:11d8f3dd2b9c1207dcaf2ee0bbbfd5991f571186ec9cc78427ba5bd32afae4b5" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp311-cp311-win_amd64.whl", hash = "sha256:e10ce637b18caea04431ce14fabcf5c64a1c61ec9c56b071a4b7ca131ca52d44" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:c70c95198c015b85feafc136515252a261a84561b7b1d51e3384e0655ddf25ab" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:ce826d6ef20b1bc864f0a68340c8b3287705cae2f8b4b1d932177dcc76721725" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:1f71ea527786de97d1a0cc0eacd1defc0985dcf6b3f17bb77dcfc8c34bec4dc5" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp312-cp312-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:9b22676e8097e9e22e36d6b7bda33190d0d400f345f23d4065d48f4ca7ae0425" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:80bab7bfc629882493af4aa31a4cfa43a4c57c83813253626916b8c7ada83476" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp312-cp312-musllinux_1_1_aarch64.whl", hash = "sha256:0833f8694549e586547b576dcfaba4a6b55b9e96098b36cdc7ebefe667dfed48" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp312-cp312-musllinux_1_1_x86_64.whl", hash = "sha256:8b9c7197f7cb2738065c481a0461e50ad02f18c78cd75775628afb4d7137fb3b" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp312-cp312-win32.whl", hash = "sha256:ef6107725bd54b262d6dedcc2af448a266975032bc85ef0172c5f059da6325b4" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp312-cp312-win_amd64.whl", hash = "sha256:7e7401d0de89a9a855c839bc697c079a4af81cf878373abd7dc625847d25cbd8" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp313-cp313-macosx_10_13_x86_64.whl", hash = "sha256:efdca5630322a10774e8e98e1af481aad470dd62c3170801852d752aa7a783ba" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:50187695423ffe49e2deacb8cd10510bc361faac997de9efef88badc3bb9e2d1" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:0ffe8360bab4910ef1b9e87fb812d8bc0a308b0d0eef8c8f44e0254ab3b07133" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp313-cp313-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:17e311b6c678207928d649faa7cb0d7b4c26a0ba73d41e99c4fff6b6c3276484" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:70b189594dbe54f75ab3a1acec5f1e3faa7e8cf2f1e08d9b561cb41b845f69d5" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp313-cp313-musllinux_1_1_aarch64.whl", hash = "sha256:41e4e3953a79407c794916fa277a82531dd93aad34e29c2a514c2c0c5fe971cc" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp313-cp313-musllinux_1_1_x86_64.whl", hash = "sha256:68ccc6023a3400877818152ad9a1033e3db8625d899c72eacb5a668902e4d652" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp313-cp313-win32.whl", hash = "sha256:bc2fa7c6b47d6bc618dd7fb02ef6fdedb1090ec036abab80d4681424b84c1183" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/pyyaml/6.0.2/PyYAML-6.0.2-cp313-cp313-win_amd64.whl", hash = "sha256:8388ee1976c416731879ac16da0aff3f63b286ffdd57cdeb95f3f2e085687563" },
+]
+
+[[package]]
+name = "ruff"
+version = "0.11.9"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ruff/0.11.9/ruff-0.11.9.tar.gz", hash = "sha256:ebd58d4f67a00afb3a30bf7d383e52d0e036e6195143c6db7019604a05335517" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ruff/0.11.9/ruff-0.11.9-py3-none-linux_armv6l.whl", hash = "sha256:a31a1d143a5e6f499d1fb480f8e1e780b4dfdd580f86e05e87b835d22c5c6f8c" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ruff/0.11.9/ruff-0.11.9-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:66bc18ca783b97186a1f3100e91e492615767ae0a3be584e1266aa9051990722" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ruff/0.11.9/ruff-0.11.9-py3-none-macosx_11_0_arm64.whl", hash = "sha256:bd576cd06962825de8aece49f28707662ada6a1ff2db848d1348e12c580acbf1" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ruff/0.11.9/ruff-0.11.9-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:5b1d18b4be8182cc6fddf859ce432cc9631556e9f371ada52f3eaefc10d878de" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ruff/0.11.9/ruff-0.11.9-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:0f3f46f759ac623e94824b1e5a687a0df5cd7f5b00718ff9c24f0a894a683be7" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ruff/0.11.9/ruff-0.11.9-py3-none-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:f34847eea11932d97b521450cf3e1d17863cfa5a94f21a056b93fb86f3f3dba2" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ruff/0.11.9/ruff-0.11.9-py3-none-manylinux_2_17_ppc64.manylinux2014_ppc64.whl", hash = "sha256:f33b15e00435773df97cddcd263578aa83af996b913721d86f47f4e0ee0ff271" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ruff/0.11.9/ruff-0.11.9-py3-none-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:7b27613a683b086f2aca8996f63cb3dd7bc49e6eccf590563221f7b43ded3f65" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ruff/0.11.9/ruff-0.11.9-py3-none-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:9e0d88756e63e8302e630cee3ce2ffb77859797cc84a830a24473939e6da3ca6" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ruff/0.11.9/ruff-0.11.9-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:537c82c9829d7811e3aa680205f94c81a2958a122ac391c0eb60336ace741a70" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ruff/0.11.9/ruff-0.11.9-py3-none-musllinux_1_2_aarch64.whl", hash = "sha256:440ac6a7029f3dee7d46ab7de6f54b19e34c2b090bb4f2480d0a2d635228f381" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ruff/0.11.9/ruff-0.11.9-py3-none-musllinux_1_2_armv7l.whl", hash = "sha256:71c539bac63d0788a30227ed4d43b81353c89437d355fdc52e0cda4ce5651787" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ruff/0.11.9/ruff-0.11.9-py3-none-musllinux_1_2_i686.whl", hash = "sha256:c67117bc82457e4501473c5f5217d49d9222a360794bfb63968e09e70f340abd" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ruff/0.11.9/ruff-0.11.9-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:e4b78454f97aa454586e8a5557facb40d683e74246c97372af3c2d76901d697b" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ruff/0.11.9/ruff-0.11.9-py3-none-win32.whl", hash = "sha256:7fe1bc950e7d7b42caaee2a8a3bc27410547cc032c9558ee2e0f6d3b209e845a" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ruff/0.11.9/ruff-0.11.9-py3-none-win_amd64.whl", hash = "sha256:52edaa4a6d70f8180343a5b7f030c7edd36ad180c9f4d224959c2d689962d964" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ruff/0.11.9/ruff-0.11.9-py3-none-win_arm64.whl", hash = "sha256:bcf42689c22f2e240f496d0c183ef2c6f7b35e809f12c1db58f75d9aa8d630ca" },
+]
+
+[[package]]
+name = "sniffio"
+version = "1.3.1"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/sniffio/1.3.1/sniffio-1.3.1.tar.gz", hash = "sha256:f4324edc670a0f49750a81b895f35c3adb843cca46f0530f79fc1babb23789dc" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/sniffio/1.3.1/sniffio-1.3.1-py3-none-any.whl", hash = "sha256:2f6da418d1f1e0fddd844478f41680e794e6051915791a034ff65e5f100525a2" },
+]
+
+[[package]]
+name = "starlette"
+version = "0.46.2"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+dependencies = [
+    { name = "anyio" },
+]
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/starlette/0.46.2/starlette-0.46.2.tar.gz", hash = "sha256:7f7361f34eed179294600af672f565727419830b54b7b084efe44bb82d2fccd5" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/starlette/0.46.2/starlette-0.46.2-py3-none-any.whl", hash = "sha256:595633ce89f8ffa71a015caed34a5b2dc1c0cdb3f0f1fbd1e69339cf2abeec35" },
+]
+
+[[package]]
+name = "tomlkit"
+version = "0.13.2"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/tomlkit/0.13.2/tomlkit-0.13.2.tar.gz", hash = "sha256:fff5fe59a87295b278abd31bec92c15d9bc4a06885ab12bcea52c71119392e79" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/tomlkit/0.13.2/tomlkit-0.13.2-py3-none-any.whl", hash = "sha256:7a974427f6e119197f670fbbbeae7bef749a6c14e793db934baefc1b5f03efde" },
+]
+
+[[package]]
+name = "typing-extensions"
+version = "4.13.2"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/typing-extensions/4.13.2/typing_extensions-4.13.2.tar.gz", hash = "sha256:e6c81219bd689f51865d9e372991c540bda33a0379d5573cddb9a3a23f7caaef" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/typing-extensions/4.13.2/typing_extensions-4.13.2-py3-none-any.whl", hash = "sha256:a439e7c04b49fec3e5d3e2beaa21755cadbbdc391694e28ccdd36ca4a1408f8c" },
+]
+
+[[package]]
+name = "ujson"
+version = "5.10.0"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0.tar.gz", hash = "sha256:b3cd8f3c5d8c7738257f1018880444f7b7d9b66232c64649f562d7ba86ad4bc1" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:a5b366812c90e69d0f379a53648be10a5db38f9d4ad212b60af00bd4048d0f00" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:502bf475781e8167f0f9d0e41cd32879d120a524b22358e7f205294224c71126" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:5b91b5d0d9d283e085e821651184a647699430705b15bf274c7896f23fe9c9d8" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:129e39af3a6d85b9c26d5577169c21d53821d8cf68e079060602e861c6e5da1b" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp311-cp311-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:f77b74475c462cb8b88680471193064d3e715c7c6074b1c8c412cb526466efe9" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp311-cp311-musllinux_1_2_aarch64.whl", hash = "sha256:7ec0ca8c415e81aa4123501fee7f761abf4b7f386aad348501a26940beb1860f" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp311-cp311-musllinux_1_2_i686.whl", hash = "sha256:ab13a2a9e0b2865a6c6db9271f4b46af1c7476bfd51af1f64585e919b7c07fd4" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp311-cp311-musllinux_1_2_x86_64.whl", hash = "sha256:57aaf98b92d72fc70886b5a0e1a1ca52c2320377360341715dd3933a18e827b1" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp311-cp311-win32.whl", hash = "sha256:2987713a490ceb27edff77fb184ed09acdc565db700ee852823c3dc3cffe455f" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp311-cp311-win_amd64.whl", hash = "sha256:f00ea7e00447918ee0eff2422c4add4c5752b1b60e88fcb3c067d4a21049a720" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:98ba15d8cbc481ce55695beee9f063189dce91a4b08bc1d03e7f0152cd4bbdd5" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:a9d2edbf1556e4f56e50fab7d8ff993dbad7f54bac68eacdd27a8f55f433578e" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:6627029ae4f52d0e1a2451768c2c37c0c814ffc04f796eb36244cf16b8e57043" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:f8ccb77b3e40b151e20519c6ae6d89bfe3f4c14e8e210d910287f778368bb3d1" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp312-cp312-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:f3caf9cd64abfeb11a3b661329085c5e167abbe15256b3b68cb5d914ba7396f3" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp312-cp312-musllinux_1_2_aarch64.whl", hash = "sha256:6e32abdce572e3a8c3d02c886c704a38a1b015a1fb858004e03d20ca7cecbb21" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp312-cp312-musllinux_1_2_i686.whl", hash = "sha256:a65b6af4d903103ee7b6f4f5b85f1bfd0c90ba4eeac6421aae436c9988aa64a2" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:604a046d966457b6cdcacc5aa2ec5314f0e8c42bae52842c1e6fa02ea4bda42e" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp312-cp312-win32.whl", hash = "sha256:6dea1c8b4fc921bf78a8ff00bbd2bfe166345f5536c510671bccececb187c80e" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp312-cp312-win_amd64.whl", hash = "sha256:38665e7d8290188b1e0d57d584eb8110951a9591363316dd41cf8686ab1d0abc" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp313-cp313-macosx_10_9_x86_64.whl", hash = "sha256:618efd84dc1acbd6bff8eaa736bb6c074bfa8b8a98f55b61c38d4ca2c1f7f287" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:38d5d36b4aedfe81dfe251f76c0467399d575d1395a1755de391e58985ab1c2e" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:67079b1f9fb29ed9a2914acf4ef6c02844b3153913eb735d4bf287ee1db6e557" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:d7d0e0ceeb8fe2468c70ec0c37b439dd554e2aa539a8a56365fd761edb418988" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp313-cp313-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:59e02cd37bc7c44d587a0ba45347cc815fb7a5fe48de16bf05caa5f7d0d2e816" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp313-cp313-musllinux_1_2_aarch64.whl", hash = "sha256:2a890b706b64e0065f02577bf6d8ca3b66c11a5e81fb75d757233a38c07a1f20" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp313-cp313-musllinux_1_2_i686.whl", hash = "sha256:621e34b4632c740ecb491efc7f1fcb4f74b48ddb55e65221995e74e2d00bbff0" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:b9500e61fce0cfc86168b248104e954fead61f9be213087153d272e817ec7b4f" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp313-cp313-win32.whl", hash = "sha256:4c4fc16f11ac1612f05b6f5781b384716719547e142cfd67b65d035bd85af165" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/ujson/5.10.0/ujson-5.10.0-cp313-cp313-win_amd64.whl", hash = "sha256:4573fd1695932d4f619928fd09d5d03d917274381649ade4328091ceca175539" },
+]
+
+[[package]]
+name = "uvicorn"
+version = "0.34.2"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+dependencies = [
+    { name = "click" },
+    { name = "h11" },
+]
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/uvicorn/0.34.2/uvicorn-0.34.2.tar.gz", hash = "sha256:0e929828f6186353a80b58ea719861d2629d766293b6d19baf086ba31d4f3328" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/uvicorn/0.34.2/uvicorn-0.34.2-py3-none-any.whl", hash = "sha256:deb49af569084536d269fe0a6d67e3754f104cf03aba7c11c40f01aadf33c403" },
+]
+
+[[package]]
+name = "websockets"
+version = "15.0.1"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1.tar.gz", hash = "sha256:82544de02076bafba038ce055ee6412d68da13ab47f0c60cab827346de828dee" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:823c248b690b2fd9303ba00c4f66cd5e2d8c3ba4aa968b2779be9532a4dad431" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:678999709e68425ae2593acf2e3ebcbcf2e69885a5ee78f9eb80e6e371f1bf57" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:d50fd1ee42388dcfb2b3676132c78116490976f1300da28eb629272d5d93e905" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:d99e5546bf73dbad5bf3547174cd6cb8ba7273062a23808ffea025ecb1cf8562" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp311-cp311-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:66dd88c918e3287efc22409d426c8f729688d89a0c587c88971a0faa2c2f3792" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:8dd8327c795b3e3f219760fa603dcae1dcc148172290a8ab15158cf85a953413" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp311-cp311-musllinux_1_2_aarch64.whl", hash = "sha256:8fdc51055e6ff4adeb88d58a11042ec9a5eae317a0a53d12c062c8a8865909e8" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp311-cp311-musllinux_1_2_i686.whl", hash = "sha256:693f0192126df6c2327cce3baa7c06f2a117575e32ab2308f7f8216c29d9e2e3" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp311-cp311-musllinux_1_2_x86_64.whl", hash = "sha256:54479983bd5fb469c38f2f5c7e3a24f9a4e70594cd68cd1fa6b9340dadaff7cf" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp311-cp311-win32.whl", hash = "sha256:16b6c1b3e57799b9d38427dda63edcbe4926352c47cf88588c0be4ace18dac85" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp311-cp311-win_amd64.whl", hash = "sha256:27ccee0071a0e75d22cb35849b1db43f2ecd3e161041ac1ee9d2352ddf72f065" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp312-cp312-macosx_10_13_universal2.whl", hash = "sha256:3e90baa811a5d73f3ca0bcbf32064d663ed81318ab225ee4f427ad4e26e5aff3" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp312-cp312-macosx_10_13_x86_64.whl", hash = "sha256:592f1a9fe869c778694f0aa806ba0374e97648ab57936f092fd9d87f8bc03665" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:0701bc3cfcb9164d04a14b149fd74be7347a530ad3bbf15ab2c678a2cd3dd9a2" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:e8b56bdcdb4505c8078cb6c7157d9811a85790f2f2b3632c7d1462ab5783d215" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp312-cp312-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:0af68c55afbd5f07986df82831c7bff04846928ea8d1fd7f30052638788bc9b5" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:64dee438fed052b52e4f98f76c5790513235efaa1ef7f3f2192c392cd7c91b65" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp312-cp312-musllinux_1_2_aarch64.whl", hash = "sha256:d5f6b181bb38171a8ad1d6aa58a67a6aa9d4b38d0f8c5f496b9e42561dfc62fe" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp312-cp312-musllinux_1_2_i686.whl", hash = "sha256:5d54b09eba2bada6011aea5375542a157637b91029687eb4fdb2dab11059c1b4" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:3be571a8b5afed347da347bfcf27ba12b069d9d7f42cb8c7028b5e98bbb12597" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp312-cp312-win32.whl", hash = "sha256:c338ffa0520bdb12fbc527265235639fb76e7bc7faafbb93f6ba80d9c06578a9" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp312-cp312-win_amd64.whl", hash = "sha256:fcd5cf9e305d7b8338754470cf69cf81f420459dbae8a3b40cee57417f4614a7" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp313-cp313-macosx_10_13_universal2.whl", hash = "sha256:ee443ef070bb3b6ed74514f5efaa37a252af57c90eb33b956d35c8e9c10a1931" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp313-cp313-macosx_10_13_x86_64.whl", hash = "sha256:5a939de6b7b4e18ca683218320fc67ea886038265fd1ed30173f5ce3f8e85675" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:746ee8dba912cd6fc889a8147168991d50ed70447bf18bcda7039f7d2e3d9151" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:595b6c3969023ecf9041b2936ac3827e4623bfa3ccf007575f04c5a6aa318c22" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp313-cp313-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:3c714d2fc58b5ca3e285461a4cc0c9a66bd0e24c5da9911e30158286c9b5be7f" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp313-cp313-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:0f3c1e2ab208db911594ae5b4f79addeb3501604a165019dd221c0bdcabe4db8" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp313-cp313-musllinux_1_2_aarch64.whl", hash = "sha256:229cf1d3ca6c1804400b0a9790dc66528e08a6a1feec0d5040e8b9eb14422375" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp313-cp313-musllinux_1_2_i686.whl", hash = "sha256:756c56e867a90fb00177d530dca4b097dd753cde348448a1012ed6c5131f8b7d" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:558d023b3df0bffe50a04e710bc87742de35060580a293c2a984299ed83bc4e4" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp313-cp313-win32.whl", hash = "sha256:ba9e56e8ceeeedb2e080147ba85ffcd5cd0711b89576b83784d8605a7df455fa" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-cp313-cp313-win_amd64.whl", hash = "sha256:e09473f095a819042ecb2ab9465aee615bd9c2028e4ef7d933600a8401c79561" },
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/websockets/15.0.1/websockets-15.0.1-py3-none-any.whl", hash = "sha256:f7a866fbc1e97b5c617ee4116daaa09b722101d4a3c170c787450ba409f9736f" },
+]
+
+[[package]]
+name = "zipp"
+version = "3.21.0"
+source = { registry = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/simple" }
+sdist = { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/zipp/3.21.0/zipp-3.21.0.tar.gz", hash = "sha256:2c9958f6430a2040341a52eb608ed6dd93ef4392e02ffe219417c1b28b5dd1f4" }
+wheels = [
+    { url = "https://bagofholding-pb.cse-cst.gc.ca/repository/pypi/packages/zipp/3.21.0/zipp-3.21.0-py3-none-any.whl", hash = "sha256:ac1bbe05fd2991f160ebce24ffbac5f6d11d83dc90891255885223d42b3cd931" },
+]
