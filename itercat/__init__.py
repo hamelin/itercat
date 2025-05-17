@@ -58,34 +58,47 @@ class _ExceptionInIteration:
     exception: Exception
 
 
+class IteratorBicolor(Protocol[T]):
+
+    def __aiter__(self) -> AsyncIterator[T]:
+        ...
+
+    def __iter__(self) -> Iterator[T]:
+        ...
+
+
+def iter_through_thread(it: AsyncIterator[T]) -> Iterator[T]:
+    q: Queue[Union[T, _ExceptionInIteration, _EndOfIteration]] = Queue()
+
+    async def transfer_to_queue():
+        try:
+            async for x in it:
+                q.put(x)
+            q.put(_end_of_iteration)
+        except Exception as ex:
+            q.put(_ExceptionInIteration(ex))
+
+    def run_transfer():
+        asyncio.run(transfer_to_queue())
+
+    th = Thread(target=run_transfer)
+    th.start()
+    while (_x := q.get()) is not _end_of_iteration:
+        if isinstance(_x, _ExceptionInIteration):
+            raise cast(_ExceptionInIteration, _x).exception
+        yield cast(T, _x)
+    th.join()
+
+
 @dataclass
-class IteratorBicolor(Generic[T]):
+class _WrapperAsyncIterator(Generic[T]):
     _aiter: AsyncIterator[T]
 
     def __aiter__(self) -> AsyncIterator[T]:
         return self._aiter
 
     def __iter__(self) -> Iterator[T]:
-        q: Queue[Union[T, _ExceptionInIteration, _EndOfIteration]] = Queue()
-
-        async def transfer_to_queue():
-            try:
-                async for x in self:
-                    q.put(x)
-                q.put(_end_of_iteration)
-            except Exception as ex:
-                q.put(_ExceptionInIteration(ex))
-
-        def run_transfer():
-            asyncio.run(transfer_to_queue())
-
-        th = Thread(target=run_transfer)
-        th.start()
-        while (_x := q.get()) is not _end_of_iteration:
-            if isinstance(_x, _ExceptionInIteration):
-                raise cast(_ExceptionInIteration, _x).exception
-            yield cast(T, _x)
-        th.join()
+        yield from iter_through_thread(self._aiter)
 
 
 @dataclass
@@ -101,7 +114,7 @@ class Chain(Generic[S, T]):
         i_: AsyncIterator = as_iterator(input)
         for link in self.links:
             i_ = link(i_)
-        return IteratorBicolor[T](i_)
+        return _WrapperAsyncIterator(i_)
 
 
 def link(fn: Transform[S, T]) -> Chain[S, T]:
