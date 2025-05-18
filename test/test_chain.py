@@ -30,6 +30,7 @@ with app.setup:
         Tagged,
         tail,
         value_at,
+        with_name,
     )
     from _test import increment
 
@@ -274,6 +275,13 @@ def test_tag_records_by_index():
     ] == list(
         [("asdf", 23, "qwer"), ("zxcv", 8, "ghgh"), ("asdf", 2, "poiu")]
         > tag(value_at(0))
+    )
+
+
+@app.function
+def test_tag_with_name():
+    assert [Tagged[str, int]("asdf", n) for n in range(5)] == list(
+        range(5) > tag(with_name("asdf"))
     )
 
 

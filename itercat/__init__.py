@@ -393,6 +393,10 @@ def value_at(index: Index) -> Labeler[Indexable[Index], Label]:
     return _at
 
 
+def with_name(name: str) -> Labeler[U, str]:
+    return lambda _: name
+
+
 strip: Chain[Tagged[_Label, U], U] = map(lambda tagd: tagd.data)  # type: ignore
 
 
@@ -499,4 +503,5 @@ __all__ = [
     "Tagged",
     "tail",
     "value_at",
+    "with_name",
 ]
