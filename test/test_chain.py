@@ -20,7 +20,6 @@ with app.setup:
         head,
         map,
         mapargs,
-        name,
         ngrams,
         reduce,
         reverse,
@@ -38,7 +37,7 @@ with app.setup:
 @app.function
 @pytest.mark.parametrize(
     "elements,chain",
-    it.product([[], [5, 0, 8, 2, -1]], [increment, increment | increment | increment])
+    it.product([[], [5, 0, 8, 2, -1]], [increment, increment | increment | increment]),
 )
 def test_simple_chain(elements, chain):
     ait = elements > chain
@@ -263,9 +262,7 @@ def test_tag_numbers():
         Tagged[str, int]("other", 7),
         Tagged[str, int]("other", 8),
         Tagged[str, int]("zero-mod3", 9),
-    ] == list(
-        range(10) > tag(lambda n: "zero-mod3" if n % 3 == 0 else "other")
-    )
+    ] == list(range(10) > tag(lambda n: "zero-mod3" if n % 3 == 0 else "other"))
 
 
 @app.function
@@ -354,15 +351,6 @@ def test_extend():
     assert [2, 3, 4, 8, 7, 1, 2, 8] == list([2, 3, 4] > extend(_iter(), [1, 2, 8]))
 
 
-@app.function
-@pytest.mark.parametrize("n", [0, 3, "asdf"])
-def test_name(n):
-    obtained = list(range(5) > name(n))
-    assert 1 == len(obtained)
-    x, = obtained
-    assert isinstance(x, Tagged)
-    assert x.label == n
-    assert hasattr(x.data, "__aiter__")
 
 
 if __name__ == "__main__":

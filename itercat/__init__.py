@@ -96,7 +96,7 @@ class _WrapperAsyncIterator(Generic[T]):
         return self._aiter
 
     def __iter__(self) -> Iterator[T]:
-        yield from iter_through_thread(self._aiter)
+        yield from iter_through_thread(self)
 
 
 @dataclass
@@ -427,16 +427,18 @@ def extend(*segments: Union[Iterable[U], AsyncIterable[U]]) -> Chain[U, U]:
     return _extend
 
 
-Name = TypeVar("Name", int, str)
-IteratorNamed = Tagged[Name, AsyncIterator[U]]
+# Name = TypeVar("Name", int, str)
 
 
-def name(n: Name) -> Chain[T, IteratorNamed[Name, T]]:
-    @link
-    async def _name(elements: AsyncIterator[T]) -> AsyncIterator[IteratorNamed[Name, T]]:
-        yield IteratorNamed[Name, T](n, elements)
+# class IteratorNamed(Tagged[Name, AsyncIterator[U]]):
 
-    return _name
+#     def __aiter__(self) -> AsyncIterator[U]:
+#         return self.data
+
+#     def __iter__(self) -> Iterator[U]:
+#         yield from iter_through_thread(self)
+
+
 
 
 # TBD:
