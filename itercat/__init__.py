@@ -6,7 +6,6 @@ from collections.abc import (
     Hashable,
     Iterable,
     Iterator,
-    Sequence,
 )
 from dataclasses import dataclass
 from queue import Queue
@@ -23,7 +22,6 @@ from typing import (
 )
 
 
-H = TypeVar("H", bound=Hashable)
 S = TypeVar("S", contravariant=True)
 T = TypeVar("T", covariant=True)
 U = TypeVar("U")
@@ -333,22 +331,28 @@ def clamp(predicate: Predicate[T]) -> Chain[T, T]:
     return _clamp
 
 
-class Comparable(Protocol[U]):
+_Comparable = TypeVar("_Comparable", bound="Comparable")
+
+
+class Comparable(Protocol):
 
     def __eq__(self, other: Any) -> bool:
         ...
 
-    def __lt__(self, other: "Label[U]") -> bool:
+    def __lt__(self: _Comparable, other: _Comparable) -> bool:
         ...
 
 
-class Label(Comparable[H]):
+class Label(Comparable, Hashable, Protocol):
     pass
 
 
+_Label = TypeVar("_Label", bound=Label)
+
+
 @dataclass
-class Tagged(Generic[H, U]):
-    label: Label[H]
+class Tagged(Generic[_Label, U]):
+    label: _Label
     data: U
 
     def __eq__(self, other: Any) -> bool:
@@ -356,40 +360,39 @@ class Tagged(Generic[H, U]):
             return False
         return self.label == other.label
 
-    def __lt__(self, other: "Tagged[H, Any]") -> bool:
+    def __lt__(self: "Tagged[_Label, U]", other: "Tagged[_Label, U]") -> bool:
         return self.label < other.label
 
 
-Labeler = Callable[[U], Label[H]]
+Labeler = Callable[[U], _Label]
 
 
-@overload
-def tag(tagger: Labeler[U, H]) -> Chain[U, Tagged[U, H]]:
-    ...
+def tag(labeler: Labeler[U, _Label]) -> Chain[U, Tagged[_Label, U]]:
+    return map(lambda x: Tagged[_Label, U](labeler(x), x))
 
 
-@overload
-def tag(tagger: Union[int, str]) -> Chain[Sequence[H], Tagged[Sequence[H], H]]:
-    ...
+Index = TypeVar("Index", int, str, contravariant=True)
 
 
-def tag(labeler):
-    if hasattr(labeler, "__call__"):
-        labeler_ = cast(Labeler[U, H], labeler)
-    else:
-        index = int(labeler) if hasattr(labeler, "__int__") else str(labeler)
+class Indexable(Protocol[Index]):
 
-        def labeler_(x: Sequence[H]) -> Label[H]:
-            return x[index]
-    return map(lambda x: Tagged[U, H](labeler_(x), x))
+    def __getitem__(self, index: Index) -> Any:
+        ...
 
 
-strip: Chain[Tagged[U, H], U] = map(lambda tagd: tagd.data)  # type: ignore
+def value_at(index: Index) -> Labeler[Indexable[Index], Label]:
+    def _at(indexable: Indexable[Index]) -> Label:
+        return cast(Label, indexable[index])
+
+    return _at
+
+
+strip: Chain[Tagged[_Label, U], U] = map(lambda tagd: tagd.data)  # type: ignore
 
 
 @link
-async def sort(elements: AsyncIterator[Comparable[U]]) -> AsyncIterator[Comparable[U]]:
-    elems_all: list[Comparable[U]] = []
+async def sort(elements: AsyncIterator[Comparable]) -> AsyncIterator[Comparable]:
+    elems_all: list[Comparable] = []
     async for x in elements:
         elems_all.append(x)
     for n in sorted(elems_all):
@@ -474,4 +477,5 @@ __all__ = [
     "Tagged",
     "tail",
     "Transform",
+    "value_at",
 ]

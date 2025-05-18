@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.13.8"
+__generated_with = "0.13.9"
 app = marimo.App(width="full", app_title="Unit tests on basic chains")
 
 with app.setup:
@@ -29,6 +29,7 @@ with app.setup:
         tag,
         Tagged,
         tail,
+        value_at,
     )
     from _test import increment
 
@@ -274,7 +275,7 @@ def test_tag_records_by_index():
         Tagged[str, tuple[str, int, str]]("asdf", ("asdf", 2, "poiu")),
     ] == list(
         [("asdf", 23, "qwer"), ("zxcv", 8, "ghgh"), ("asdf", 2, "poiu")]
-        > tag(0)
+        > tag(value_at(0))
     )
 
 
