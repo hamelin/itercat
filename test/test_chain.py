@@ -20,6 +20,7 @@ with app.setup:
         head,
         map,
         mapargs,
+        name,
         ngrams,
         reduce,
         reverse,
@@ -351,6 +352,17 @@ def test_extend():
         yield 7
 
     assert [2, 3, 4, 8, 7, 1, 2, 8] == list([2, 3, 4] > extend(_iter(), [1, 2, 8]))
+
+
+@app.function
+@pytest.mark.parametrize("n", [0, 3, "asdf"])
+def test_name(n):
+    obtained = list(range(5) > name(n))
+    assert 1 == len(obtained)
+    x, = obtained
+    assert isinstance(x, Tagged)
+    assert x.label == n
+    assert hasattr(x.data, "__aiter__")
 
 
 if __name__ == "__main__":

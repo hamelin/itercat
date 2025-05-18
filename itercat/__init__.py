@@ -427,6 +427,18 @@ def extend(*segments: Union[Iterable[U], AsyncIterable[U]]) -> Chain[U, U]:
     return _extend
 
 
+Name = TypeVar("Name", int, str)
+IteratorNamed = Tagged[Name, AsyncIterator[U]]
+
+
+def name(n: Name) -> Chain[T, IteratorNamed[Name, T]]:
+    @link
+    async def _name(elements: AsyncIterator[T]) -> AsyncIterator[IteratorNamed[Name, T]]:
+        yield IteratorNamed[Name, T](n, elements)
+
+    return _name
+
+
 # TBD:
 #
 # permutations
@@ -467,6 +479,7 @@ __all__ = [
     "link",
     "map",
     "mapargs",
+    "name",
     "ngrams",
     "reduce",
     "reverse",
