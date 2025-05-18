@@ -25,9 +25,6 @@ from typing import (
 S = TypeVar("S", contravariant=True)
 T = TypeVar("T", covariant=True)
 U = TypeVar("U")
-Transform = Callable[[AsyncIterator[S]], AsyncIterator[T]]
-Predicate = Callable[[T], bool]
-Cumulation = Callable[[U, T], U]
 Input = Union[AsyncIterable[T], AsyncIterator[T], Iterable[T], Iterator[T]]
 
 
@@ -49,20 +46,6 @@ class _EndOfIteration:
 
 
 _end_of_iteration = _EndOfIteration()
-
-
-@dataclass
-class _ExceptionInIteration:
-    exception: Exception
-
-
-class IteratorBicolor(Protocol[T]):
-
-    def __aiter__(self) -> AsyncIterator[T]:
-        ...
-
-    def __iter__(self) -> Iterator[T]:
-        ...
 
 
 def iter_through_thread(it: AsyncIterator[T]) -> Iterator[T]:
@@ -89,6 +72,20 @@ def iter_through_thread(it: AsyncIterator[T]) -> Iterator[T]:
 
 
 @dataclass
+class _ExceptionInIteration:
+    exception: Exception
+
+
+class IteratorBicolor(Protocol[T]):
+
+    def __aiter__(self) -> AsyncIterator[T]:
+        ...
+
+    def __iter__(self) -> Iterator[T]:
+        ...
+
+
+@dataclass
 class _WrapperAsyncIterator(Generic[T]):
     _aiter: AsyncIterator[T]
 
@@ -96,12 +93,15 @@ class _WrapperAsyncIterator(Generic[T]):
         return self._aiter
 
     def __iter__(self) -> Iterator[T]:
-        yield from iter_through_thread(self)
+        yield from iter_through_thread(self._aiter)
+
+
+Link = Callable[[AsyncIterator[S]], AsyncIterator[T]]
 
 
 @dataclass
 class Chain(Generic[S, T]):
-    links: list[Transform]
+    links: list[Link]
 
     def __or__(self, tail: "Chain[T, U]") -> "Chain[S, U]":
         if not isinstance(tail, Chain):
@@ -115,7 +115,7 @@ class Chain(Generic[S, T]):
         return _WrapperAsyncIterator(i_)
 
 
-def link(fn: Transform[S, T]) -> Chain[S, T]:
+def link(fn: Link[S, T]) -> Chain[S, T]:
     return Chain([fn])
 
 
@@ -135,6 +135,9 @@ def mapargs(function: Callable[..., T]) -> Chain[Iterable, T]:
             yield function(*xs)
 
     return _mapargs
+
+
+Cumulation = Callable[[U, T], U]
 
 
 @overload
@@ -186,6 +189,9 @@ def reduce(cumulation, initial=None):
             yield last
 
     return _reduce
+
+
+Predicate = Callable[[T], bool]
 
 
 def filter(predicate: Predicate[T]) -> Chain[T, T]:
@@ -478,6 +484,7 @@ __all__ = [
     "extend",
     "filter",
     "head",
+    "Link",
     "link",
     "map",
     "mapargs",
@@ -491,6 +498,5 @@ __all__ = [
     "tag",
     "Tagged",
     "tail",
-    "Transform",
     "value_at",
 ]
