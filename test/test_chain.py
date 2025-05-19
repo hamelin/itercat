@@ -9,10 +9,12 @@ with app.setup:
     from math import sqrt
     from operator import add, mul, neg
     import pytest
+    from typing import cast
 
     from itercat import (  # type: ignore
         batch,
         clamp,
+        concurrently,
         cut,
         cumulate,
         extend,
@@ -29,6 +31,7 @@ with app.setup:
         strip,
         tag,
         Tagged,
+        TaggedIterable,
         tail,
         value_at,
         with_name,
@@ -360,6 +363,53 @@ def test_extend():
     assert [2, 3, 4, 8, 7, 1, 2, 8] == list([2, 3, 4] > extend(_iter(), [1, 2, 8]))
 
 
+@app.function
+def test_concurrently_anonymous():
+    iters = list(
+        concurrently(
+            range(5),
+            range(5) > map(lambda x: x + 1) | reduce(add),
+            [9, 8, 7] > tag(with_name("hey")),
+            "abcd",
+            it.count() > cut(lambda x: x < 3),
+        )
+    )
+    assert all(is_iterator_bicolor(it) for it in iters)
+    assert [list(it) for it in iters] == [
+        [0, 1, 2, 3, 4],
+        [15],
+        [Tagged("hey", n) for n in [9, 8, 7]],
+        ["a", "b", "c", "d"],
+        [0, 1, 2],
+    ]
+
+
+@app.function
+def test_concurrently_named():
+    iters = list(
+        concurrently(
+            asdf=range(5),
+            qwer=it.count() > map(lambda x: x * 2) | cut(lambda x: x < 10),
+            zxcv="abcd",
+        )
+    )
+    assert all(isinstance(it, TaggedIterable) for it in iters)
+    assert {it.label: list(it) for it in iters} == {
+        "asdf": [0, 1, 2, 3, 4],
+        "qwer": [0, 2, 4, 6, 8],
+        "zxcv": ["a", "b", "c", "d"],
+    }
+
+
+@app.function
+def test_concurrently_mixed():
+    iters = list(concurrently(range(5), asdf=[10, 9, 8]))
+    for _it in iters:
+        if hasattr(_it, "label"):
+            assert "asdf" == cast(TaggedIterable, _it).label
+            assert [10, 9, 8] == list(_it)
+        else:
+            assert [0, 1, 2, 3, 4] == list(_it)
 
 
 if __name__ == "__main__":

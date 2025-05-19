@@ -455,18 +455,35 @@ def extend(*segments: Union[Iterable[U], AsyncIterable[U]]) -> Chain[U, U]:
     return _extend
 
 
-# Name = TypeVar("Name", int, str)
+class TaggedIterable(Tagged[_Label, AsyncIterable[U]]):
+
+    def __aiter__(self) -> AsyncIterator[U]:
+        return cast(AsyncIterator[U], self.data)
+
+    def __iter__(self) -> Iterator[U]:
+        yield from iter_through_thread(
+            aiter(cast(AsyncIterable[U], self.data))
+        )
 
 
-# class IteratorNamed(Tagged[Name, AsyncIterator[U]]):
+class concurrently:
 
-#     def __aiter__(self) -> AsyncIterator[U]:
-#         return self.data
+    def __init__(
+        self,
+        *iterations_anon: AsyncIterable[Any],
+        **iterations_named: AsyncIterable[Any]
+    ) -> None:
+        self._iterations_anon = iterations_anon
+        self._iterations_named = iterations_named
 
-#     def __iter__(self) -> Iterator[U]:
-#         yield from iter_through_thread(self)
+    async def __aiter__(self) -> AsyncIterator[AsyncIterable[Any]]:
+        for iteration in self._iterations_anon:
+            yield as_iterator_bicolor(iteration)
+        for name, iteration in self._iterations_named.items():
+            yield TaggedIterable(name, as_iterator_bicolor(iteration))
 
-
+    def __iter__(self) -> Iterator[AsyncIterable[Any]]:
+        yield from iter_through_thread(aiter(self))
 
 
 # TBD:
@@ -501,6 +518,7 @@ __all__ = [
     "batch",
     "Chain",
     "clamp",
+    "concurrently",
     "cut",
     "cumulate",
     "extend",
@@ -521,6 +539,7 @@ __all__ = [
     "strip",
     "tag",
     "Tagged",
+    "TaggedIterable",
     "tail",
     "value_at",
     "with_name",
