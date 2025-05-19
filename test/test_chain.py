@@ -17,6 +17,7 @@ with app.setup:
         concurrently,
         cut,
         cumulate,
+        dispatch,
         drain,
         extend,
         filter,
@@ -429,6 +430,17 @@ def test_drain(input):
 @pytest.mark.parametrize("input", [[], range(5), list("abc"), it.count()])
 def test_truncate(input):
     assert [] == list(input > truncate)
+
+
+@app.function
+def test_dispatch_anonymous_1for1():
+    iters = list(
+        concurrently(range(5), range(8), range(10))
+        > dispatch(
+            cumulate(add), map(lambda x: x + 1), filter(lambda x: x % 2 == 0) | head(3)
+        )
+    )
+    assert [[0, 1, 3, 6, 10], [1, 2, 3, 4, 5, 6, 7, 8], [0, 2, 4]] == [list(i) for i in iters]
 
 
 if __name__ == "__main__":

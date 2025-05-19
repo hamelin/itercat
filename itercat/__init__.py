@@ -8,6 +8,7 @@ from collections.abc import (
     Iterator,
 )
 from dataclasses import dataclass
+import itertools as it
 from queue import Queue
 from threading import Thread
 from typing import (
@@ -498,6 +499,17 @@ async def truncate(iterable: AsyncIterable[Never]) -> AsyncIterator[Never]:
     if False:
         yield None
 
+
+def dispatch(*chains: Chain[Any, Any]) -> Chain[Any, AsyncIterator[Any]]:
+    @link
+    async def _dispatch(
+        iterables: AsyncIterable[Any]
+    ) -> AsyncIterator[AsyncIterator[Any]]:
+        each_chain = it.chain(chains, it.repeat(truncate))
+        async for iterable in iterables:
+            yield as_iterator_bicolor(iterable) > next(each_chain)
+
+    return _dispatch
 # TBD:
 #
 # permutations
@@ -512,7 +524,7 @@ async def truncate(iterable: AsyncIterable[Never]) -> AsyncIterator[Never]:
 # product
 # join.inner, join.outer, join.left, join.anti
 # groupby
-# apply
+# dispatch
 # cond
 # select
 # cat
@@ -533,6 +545,7 @@ __all__ = [
     "concurrently",
     "cut",
     "cumulate",
+    "dispatch",
     "drain",
     "extend",
     "filter",
