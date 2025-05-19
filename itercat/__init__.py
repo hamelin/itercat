@@ -25,20 +25,6 @@ from typing import (
 S = TypeVar("S", contravariant=True)
 T = TypeVar("T", covariant=True)
 U = TypeVar("U")
-Input = Union[AsyncIterable[T], AsyncIterator[T], Iterable[T], Iterator[T]]
-
-
-def as_iterator(input: Input[T]) -> AsyncIterator[T]:
-    if hasattr(input, "__anext__"):
-        return cast(AsyncIterator[T], input)
-    elif hasattr(input, "__aiter__"):
-        return aiter(cast(AsyncIterable[T], input))
-    elif hasattr(input, "__iter__"):
-        async def _iter():
-            for x in input:
-                yield x
-        return _iter()
-    raise ValueError(f"Can't iterate over input: {repr(input)}")
 
 
 class _EndOfIteration:
@@ -48,12 +34,12 @@ class _EndOfIteration:
 _end_of_iteration = _EndOfIteration()
 
 
-def iter_through_thread(it: AsyncIterator[T]) -> Iterator[T]:
-    q: Queue[Union[T, _ExceptionInIteration, _EndOfIteration]] = Queue()
+def iter_through_thread(it: AsyncIterable[T]) -> Iterator[T]:
+    q: Queue[T | _ExceptionInIteration | _EndOfIteration] = Queue()
 
     async def transfer_to_queue():
         try:
-            async for x in it:
+            async for x in aiter(it):
                 q.put(x)
             q.put(_end_of_iteration)
         except Exception as ex:
@@ -85,9 +71,19 @@ class IteratorBicolor(Protocol[T]):
         ...
 
 
+def is_iterator_bicolor(x: Any) -> bool:
+    if not hasattr(x, "__iter__"):
+        return False
+    return any(hasattr(x, attr) for attr in ["__aiter__", "__anext__"])
+
+
 @dataclass
-class _WrapperAsyncIterator(Generic[T]):
-    _aiter: AsyncIterator[T]
+class WrapperBicolor(Generic[T]):
+    _aiterable: AsyncIterable[T]
+
+    @property
+    def _aiter(self) -> AsyncIterator[T]:
+        return aiter(self._aiterable)
 
     def __aiter__(self) -> AsyncIterator[T]:
         return self._aiter
@@ -96,7 +92,25 @@ class _WrapperAsyncIterator(Generic[T]):
         yield from iter_through_thread(self._aiter)
 
 
-Link = Callable[[AsyncIterator[S]], AsyncIterator[T]]
+Input = (
+    AsyncIterable[T] | AsyncIterator[T] | Iterable[T] | Iterator[T] | IteratorBicolor[T]
+)
+
+
+def as_iterator_bicolor(input: Input[T]) -> IteratorBicolor[T]:
+    if is_iterator_bicolor(input):
+        return cast(IteratorBicolor[T], input)
+    elif any(hasattr(input, attr) for attr in ["__anext__", "__aiter__"]):
+        return WrapperBicolor(cast(AsyncIterable[T], input))
+    elif hasattr(input, "__iter__"):
+        async def _iter():
+            for x in input:
+                yield x
+        return WrapperBicolor(_iter())
+    raise ValueError(f"Can't iterate over input: {repr(input)}")
+
+
+Link = Callable[[AsyncIterable[S]], AsyncIterator[T]]
 
 
 @dataclass
@@ -109,10 +123,10 @@ class Chain(Generic[S, T]):
         return Chain[S, U](self.links + tail.links)
 
     def __lt__(self, input: Input[S]) -> IteratorBicolor[T]:
-        i_: AsyncIterator = as_iterator(input)
+        i_: AsyncIterable = as_iterator_bicolor(input)
         for link in self.links:
             i_ = link(i_)
-        return _WrapperAsyncIterator(i_)
+        return WrapperBicolor(i_)
 
 
 def link(fn: Link[S, T]) -> Chain[S, T]:
@@ -121,8 +135,8 @@ def link(fn: Link[S, T]) -> Chain[S, T]:
 
 def map(function: Callable[[S], T]) -> Chain[S, T]:
     @link
-    async def _map(elements: AsyncIterator[S]) -> AsyncIterator[T]:
-        async for x in elements:
+    async def _map(elements: AsyncIterable[S]) -> AsyncIterator[T]:
+        async for x in aiter(elements):
             yield function(x)
 
     return _map
@@ -130,8 +144,8 @@ def map(function: Callable[[S], T]) -> Chain[S, T]:
 
 def mapargs(function: Callable[..., T]) -> Chain[Iterable, T]:
     @link
-    async def _mapargs(elements: AsyncIterator[Iterable]) -> AsyncIterator[T]:
-        async for xs in elements:
+    async def _mapargs(elements: AsyncIterable[Iterable]) -> AsyncIterator[T]:
+        async for xs in aiter(elements):
             yield function(*xs)
 
     return _mapargs
@@ -153,14 +167,15 @@ def cumulate(cumulation: Cumulation[T, T], initial: Optional[T]) -> Chain[T, T]:
 def cumulate(cumulation, initial=None):
     @link
     async def _cumulate(elements):
+        elements_ = aiter(elements)
         try:
             if initial is None:
-                snowball = await anext(elements)
+                snowball = await anext(elements_)
             else:
                 snowball = initial
 
             yield snowball
-            async for snowflake in elements:
+            async for snowflake in elements_:
                 snowball = cumulation(snowball, snowflake)
                 yield snowball
         except StopAsyncIteration:
@@ -196,8 +211,8 @@ Predicate = Callable[[T], bool]
 
 def filter(predicate: Predicate[T]) -> Chain[T, T]:
     @link
-    async def _filter(elements: AsyncIterator[T]) -> AsyncIterator[T]:
-        async for x in elements:
+    async def _filter(elements: AsyncIterable[T]) -> AsyncIterator[T]:
+        async for x in aiter(elements):
             if predicate(x):
                 yield x
 
@@ -209,9 +224,9 @@ def batch(n: int) -> Chain[T, tuple[T, ...]]:
         raise ValueError(f"The batch size must be at least 1 (got {n})")
 
     @link
-    async def _batch(elements: AsyncIterator[T]) -> AsyncIterator[tuple[T, ...]]:
+    async def _batch(elements: AsyncIterable[T]) -> AsyncIterator[tuple[T, ...]]:
         b: list[T] = []
-        async for x in elements:
+        async for x in aiter(elements):
             b.append(x)
             if len(b) == n:
                 yield tuple(b)
@@ -228,14 +243,15 @@ def ngrams(n: int) -> Chain[T, tuple[T, ...]]:
         raise ValueError(f"The size must be at least 1 (got {n})")
 
     @link
-    async def _ngrams(elements: AsyncIterator[T]) -> AsyncIterator[tuple[T, ...]]:
+    async def _ngrams(elements: AsyncIterable[T]) -> AsyncIterator[tuple[T, ...]]:
         ngram: list[T] = []
+        elements_ = aiter(elements)
         try:
             for _ in range(n):
-                ngram.append(await anext(elements))
+                ngram.append(await anext(elements_))
             yield tuple(ngram)
 
-            async for x in elements:
+            async for x in elements_:
                 del ngram[0]
                 ngram.append(x)
                 yield tuple(ngram)
@@ -245,11 +261,12 @@ def ngrams(n: int) -> Chain[T, tuple[T, ...]]:
     return _ngrams
 
 
-async def _enumerate(elements: AsyncIterator[T]) -> AsyncIterator[tuple[int, T]]:
+async def _enumerate(elements: AsyncIterable[T]) -> AsyncIterator[tuple[int, T]]:
     i = 0
+    elements_ = aiter(elements)
     try:
         while True:
-            yield i, await anext(elements)
+            yield i, await anext(elements_)
             i += 1
     except StopAsyncIteration:
         pass
@@ -270,7 +287,7 @@ def slice_(
         raise ValueError(f"Start of the slice must be at least 0; got {start}")
 
     @link
-    async def _slice_(elements: AsyncIterator[T]) -> AsyncIterator[T]:
+    async def _slice_(elements: AsyncIterable[T]) -> AsyncIterator[T]:
         enum = _enumerate(elements)
         try:
             while True:
@@ -300,9 +317,9 @@ def tail(n: int) -> Chain[T, T]:
         raise ValueError(f"n must be positive (got {n})")
 
     @link
-    async def _tail(elements: AsyncIterator[T]) -> AsyncIterator[T]:
+    async def _tail(elements: AsyncIterable[T]) -> AsyncIterator[T]:
         the_tail: list[T] = []
-        async for x in elements:
+        async for x in aiter(elements):
             the_tail.append(x)
             if len(the_tail) > n:
                 the_tail.pop(0)
@@ -314,8 +331,8 @@ def tail(n: int) -> Chain[T, T]:
 
 def cut(predicate: Predicate[T]) -> Chain[T, T]:
     @link
-    async def _cut(elements: AsyncIterator[T]) -> AsyncIterator[T]:
-        async for x in elements:
+    async def _cut(elements: AsyncIterable[T]) -> AsyncIterator[T]:
+        async for x in aiter(elements):
             if not predicate(x):
                 break
             yield x
@@ -325,13 +342,14 @@ def cut(predicate: Predicate[T]) -> Chain[T, T]:
 
 def clamp(predicate: Predicate[T]) -> Chain[T, T]:
     @link
-    async def _clamp(elements: AsyncIterator[T]) -> AsyncIterator[T]:
-        async for x in elements:
+    async def _clamp(elements: AsyncIterable[T]) -> AsyncIterator[T]:
+        elements_ = aiter(elements)
+        async for x in elements_:
             if predicate(x):
                 continue
             yield x
             break
-        async for x in elements:
+        async for x in elements_:
             yield x
 
     return _clamp
@@ -401,18 +419,18 @@ strip: Chain[Tagged[_Label, U], U] = map(lambda tagd: tagd.data)  # type: ignore
 
 
 @link
-async def sort(elements: AsyncIterator[Comparable]) -> AsyncIterator[Comparable]:
+async def sort(elements: AsyncIterable[Comparable]) -> AsyncIterator[Comparable]:
     elems_all: list[Comparable] = []
-    async for x in elements:
+    async for x in aiter(elements):
         elems_all.append(x)
     for n in sorted(elems_all):
         yield n
 
 
 @link
-async def reverse(elements: AsyncIterator[U]) -> AsyncIterator[U]:
+async def reverse(elements: AsyncIterable[U]) -> AsyncIterator[U]:
     elems_all: list[U] = []
-    async for x in elements:
+    async for x in aiter(elements):
         elems_all.append(x)
     for x in elems_all[::-1]:
         yield x
@@ -420,13 +438,13 @@ async def reverse(elements: AsyncIterator[U]) -> AsyncIterator[U]:
 
 def extend(*segments: Union[Iterable[U], AsyncIterable[U]]) -> Chain[U, U]:
     @link
-    async def _extend(head: AsyncIterator[U]) -> AsyncIterator[U]:
+    async def _extend(head: AsyncIterable[U]) -> AsyncIterator[U]:
         for segment in [head, *segments]:
             if hasattr(segment, "__aiter__"):
-                async for x in segment:
+                async for x in aiter(cast(AsyncIterable[U], segment)):
                     yield x
             elif hasattr(segment, "__iter__"):
-                for x in segment:
+                for x in iter(segment):
                     yield x
             else:
                 raise ValueError(
@@ -488,6 +506,8 @@ __all__ = [
     "extend",
     "filter",
     "head",
+    "is_iterator_bicolor",
+    "IteratorBicolor",
     "Link",
     "link",
     "map",
@@ -504,4 +524,5 @@ __all__ = [
     "tail",
     "value_at",
     "with_name",
+    "WrapperBicolor",
 ]

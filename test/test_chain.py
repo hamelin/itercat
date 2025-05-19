@@ -18,6 +18,7 @@ with app.setup:
         extend,
         filter,
         head,
+        is_iterator_bicolor,
         map,
         mapargs,
         ngrams,
