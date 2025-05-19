@@ -14,6 +14,7 @@ from typing import (
     Any,
     cast,
     Generic,
+    Never,
     Optional,
     Protocol,
     overload,
@@ -486,6 +487,17 @@ class concurrently:
         yield from iter_through_thread(aiter(self))
 
 
+drain: Chain[Never, Never] = filter(lambda x: False)
+
+
+@link
+async def truncate(iterable: AsyncIterable[Never]) -> AsyncIterator[Never]:
+    x: Never
+    async for x in aiter(iterable):
+        break
+    if False:
+        yield None
+
 # TBD:
 #
 # permutations
@@ -521,6 +533,7 @@ __all__ = [
     "concurrently",
     "cut",
     "cumulate",
+    "drain",
     "extend",
     "filter",
     "head",
@@ -541,6 +554,7 @@ __all__ = [
     "Tagged",
     "TaggedIterable",
     "tail",
+    "truncate",
     "value_at",
     "with_name",
     "WrapperBicolor",

@@ -17,6 +17,7 @@ with app.setup:
         concurrently,
         cut,
         cumulate,
+        drain,
         extend,
         filter,
         head,
@@ -33,6 +34,7 @@ with app.setup:
         Tagged,
         TaggedIterable,
         tail,
+        truncate,
         value_at,
         with_name,
     )
@@ -410,6 +412,18 @@ def test_concurrently_mixed():
             assert [10, 9, 8] == list(_it)
         else:
             assert [0, 1, 2, 3, 4] == list(_it)
+
+
+@app.function
+@pytest.mark.parametrize("input", [[], range(5), list("abc")])
+def test_drain(input):
+    assert [] == list(input > drain)
+
+
+@app.function
+@pytest.mark.parametrize("input", [[], range(5), list("abc"), it.count()])
+def test_truncate(input):
+    assert [] == list(input > truncate)
 
 
 if __name__ == "__main__":
