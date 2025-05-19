@@ -503,16 +503,16 @@ async def truncate(iterable: AsyncIterable[Never]) -> AsyncIterator[Never]:
 # permutations
 # combinations
 # combinations_with_replacement
-# extend
 #
 # Multisequences:
 #
-# gather/mix (tagged mixing)
+# mix (tagged mixing)
 # interleave
 # zip, zip_longest, separate
 # product
 # join.inner, join.outer, join.left, join.anti
 # groupby
+# apply
 # cond
 # select
 # cat
