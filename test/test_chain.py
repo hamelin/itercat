@@ -415,6 +415,11 @@ def test_concurrently_mixed():
 
 
 @app.function
+def test_concurrently_empty():
+    assert [] == list(concurrently())
+
+
+@app.function
 @pytest.mark.parametrize("input", [[], range(5), list("abc")])
 def test_drain(input):
     assert [] == list(input > drain)
